@@ -1,0 +1,21 @@
+from django.db import models
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+    
+
+class Task(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.TextField(max_length=300, blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="tasks")
+    start_date = models.DateField()
+    finish_date = models.DateField(blank=True, null=True)
+    image = models.ImageField(upload_to='task_images/%Y/%m/%d/', blank=True, null=True)
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.title} ({self.category.name}) - {'Completed' if self.completed else 'Not Completed'}"
+    
