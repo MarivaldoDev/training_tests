@@ -1,0 +1,316 @@
+/* Home page specific styles (scoped to home.html) */
+/* Reset only for safety inside this file */
+* { box-sizing: border-box; }
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --text-color: #34495e;
+    --border-radius: 8px;
+}
+
+body.home-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    background-color: #f8f9fa;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* Navbar styling reused from global but scoped */
+.navbar { background-color: var(--dark-color); color: white; padding: 1rem 0; position: sticky; top:0; z-index:100 }
+.navbar .container{ display:flex; justify-content:space-between; align-items:center }
+.nav-brand h1{ font-size:1.6rem; }
+.nav-menu{ display:flex; gap:1.2rem; list-style:none }
+.nav-link{ color:white; text-decoration:none; font-weight:600 }
+.nav-link.active, .nav-link:hover{ color:var(--primary-color) }
+
+.hero{ background: linear-gradient(135deg,var(--primary-color),var(--secondary-color)); color:white; padding:80px 20px; text-align:center; margin-bottom:40px }
+.hero-title{ font-size:2.2rem; margin-bottom:0.6rem }
+.hero-subtitle{ opacity:0.95 }
+
+.btn{ padding:10px 20px; border-radius:6px; font-weight:600; text-decoration:none; display:inline-block }
+.btn-primary{ background:white; color:var(--primary-color) }
+.btn-light{ background:white; color:var(--dark-color) }
+
+.features{ padding:40px 20px; background:white; margin-bottom:40px }
+.features-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px }
+.feature-card{ background:#f8f9fa; padding:16px; border-radius:8px; text-align:center }
+
+.footer{ background:var(--dark-color); color:white; padding:20px; text-align:center }
+
+/* Small responsive tweaks */
+@media (max-width:768px){ .hero{ padding:60px 20px } .hero-title{ font-size:1.6rem } .nav-menu{ gap:0.8rem } }
+/* Reset e Variáveis */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --text-color: #34495e;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: var(--box-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: slideDown 0.8s ease;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-light {
+    background-color: white;
+    color: var(--dark-color);
+}
+
+.btn-light:hover {
+    background-color: var(--light-color);
+    transform: translateY(-3px);
+}
+
+/* Features Section */
+.features {
+    padding: 60px 20px;
+    background-color: white;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--dark-color);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.feature-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.feature-card p {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+}
+
+/* CTA Section */
+.cta {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark-color);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 40px;
+}
+
+/* Animações */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta h2 {
+        font-size: 1.8rem;
+    }
+
+    .cta p {
+        font-size: 1rem;
+    }
+
+    .nav-brand h1 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 50px 20px;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}

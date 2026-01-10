@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas</title>
+    <link rel="stylesheet" href="{% static 'global/css/tasks.css' %}">
+</head>
+<body>
+    {% include 'partials/nav.html' %}
+
+    <div class="container task-list">
+        <h2 class="section-title">{% if category %}Tarefas em "{{ category.name }}"{% else %}Todas as Tarefas{% endif %}</h2>
+
+        {% if tasks %}
+            {% for task in tasks %}
+                <div class="task-card">
+                    <div style="display:flex;gap:20px;align-items:flex-start">
+                        {% if task.image %}
+                            <img src="{{ task.image.url }}" alt="{{ task.title }}" class="task-image">
+                        {% endif %}
+                        <div style="flex:1">
+                            <h3>{{ task.title }} {% if task.completed %}<span style="color:var(--secondary-color);font-size:0.9rem">✓</span>{% endif %}</h3>
+                            <div class="task-meta">Categoria: {{ task.category.name }} • Início: {{ task.start_date }} {% if task.finish_date %}• Conclusão: {{ task.finish_date }}{% endif %}</div>
+                            <p style="margin-top:8px;color:#58636a">{{ task.description }}</p>
+                            <div class="task-actions">
+                                <a class="btn btn-light" href="#">Ver</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhuma tarefa encontrada.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias</title>
+    <link rel="stylesheet" href="{% static 'global/css/categories.css' %}">
+</head>
+<body>
+    {% include 'partials/nav.html' %}
+
+    <div class="container category-list">
+        <h2 class="section-title">Categorias</h2>
+        {% if categories %}
+            {% for category in categories %}
+                <a href="{% url 'app:category_tasks' category.id %}" style="text-decoration:none;color:inherit">
+                <div class="category-item">
+                    <div>
+                        <strong>{{ category.name }}</strong>
+                        <div style="font-size:0.9rem;color:#7f8c8d">{{ category.tasks.count }} tarefa(s)</div>
+                    </div>
+                    <div class="count">Ver →</div>
+                </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <p>Nenhuma categoria encontrada.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
