@@ -17,6 +17,8 @@ body.home-page {
     background-color: #f8f9fa;
 }
 
+a { text-decoration: none; color: inherit; }
+
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
 /* Navbar styling reused from global but scoped */

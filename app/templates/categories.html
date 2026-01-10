@@ -14,15 +14,17 @@
         <h2 class="section-title">Categorias</h2>
         {% if categories %}
             {% for category in categories %}
-                <a href="{% url 'app:category_tasks' category.id %}" style="text-decoration:none;color:inherit">
-                <div class="category-item">
-                    <div>
-                        <strong>{{ category.name }}</strong>
-                        <div style="font-size:0.9rem;color:#7f8c8d">{{ category.tasks.count }} tarefa(s)</div>
+                {% if category.incomplete_count > 0 %}
+                    <a href="{% url 'app:tasks_by_category' category.id %}">
+                    <div class="category-item">
+                        <div>
+                            <strong>{{ category.name }}</strong>
+                            <div>{{ category.incomplete_count }} tarefa(s) pendente(s)</div>
+                        </div>
+                        <div class="count">Ver →</div>
                     </div>
-                    <div class="count">Ver →</div>
-                </div>
-                </a>
+                    </a>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>Nenhuma categoria encontrada.</p>
