@@ -28,3 +28,7 @@ class AppViewsTests(TestCase):
     def test_app_home_view_loads_correct_template(self):
         response = self.client.get(reverse("app:home"))
         self.assertTemplateUsed(response, "home.html")
+
+    def test_app_tasks_template_shows_no_tasks_message_when_no_tasks(self):
+        response = self.client.get(reverse("app:tasks"))
+        self.assertIn(b"<p>Nenhuma tarefa encontrada.</p>", response.content)
