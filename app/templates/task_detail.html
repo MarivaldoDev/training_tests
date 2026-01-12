@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe da Tarefa</title>
+    <link rel="stylesheet" href="{% static 'global/css/tasks.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/task_detail.css' %}">
+</head>
+<body>
+    {% include 'partials/nav.html' %}
+
+    <div class="container task-list">
+        <h2 class="section-title">Detalhe da Tarefa</h2>
+
+        <div class="task-detail-card">
+            <div class="task-detail-grid">
+                {% if task.image %}
+                    <div class="detail-image">
+                        <img src="{{ task.image.url }}" alt="{{ task.title }}">
+                    </div>
+                {% endif %}
+                <div class="detail-info">
+                    <h2 class="task-title">{{ task.title }} {% if task.completed %}<span class="task-completed">✓</span>{% endif %}</h2>
+
+                    <div class="detail-meta">
+                        <div class="meta-item"><strong>Categoria</strong>: <a href="{% url 'app:tasks_by_category' task.category.id %}">{{ task.category.name }}</a></div>
+                        <div class="meta-item"><strong>Início</strong>: {{ task.start_date }}</div>
+                        {% if task.finish_date %}<div class="meta-item"><strong>Conclusão</strong>: {{ task.finish_date }}</div>{% endif %}
+                    </div>
+
+                    <div class="detail-description">{{ task.description }}</div>
+
+                    <div class="detail-actions">
+                        <form method="post" action="{% url 'app:toggle_task_completed' task.id %}" style="display:inline">
+                            {% csrf_token %}
+                            <label class="btn btn-light" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
+                                <input type="checkbox" name="completed" onchange="this.form.submit()" {% if task.completed %}checked{% endif %}>
+                                Concluída
+                            </label>
+                        </form>
+
+                        <a class="btn btn-light" href="{% url 'app:tasks' %}">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

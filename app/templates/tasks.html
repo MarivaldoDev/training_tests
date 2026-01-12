@@ -15,26 +15,24 @@
 
         {% if tasks %}
             {% for task in tasks %}
-                <div class="task-card">
-                    <div style="display:flex;gap:20px;align-items:flex-start">
-                        {% if task.image %}
-                            <img src="{{ task.image.url }}" alt="{{ task.title }}" class="task-image">
-                        {% endif %}
-                        <div style="flex:1">
-                            <h3>{{ task.title }} {% if task.completed %}<span style="color:var(--secondary-color);font-size:0.9rem">✓</span>{% endif %}</h3>
-                            <div class="task-meta">Categoria: {{ task.category.name }} • Início: {{ task.start_date }} {% if task.finish_date %}• Conclusão: {{ task.finish_date }}{% endif %}</div>
-                            <p style="margin-top:8px;color:#58636a">{{ task.description }}</p>
-                            <div class="task-actions">
-                                <a class="btn btn-light" href="#">Ver</a>
-                            </div>
+                <a href="{% url 'app:task_detail' task.id %}">
+                    <div class="task-card">
+                        <div class="task-image-wrap">
+                            {% if task.image %}
+                                <img src="{{ task.image.url }}" alt="{{ task.title }}" class="task-image">
+                            {% else %}
+                                <div class="task-noimage">{{ task.title|slice:":1" }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="task-content">
+                            <h3>{{ task.title }}</h3>
                         </div>
                     </div>
-                </div>
+                </a>
             {% endfor %}
         {% else %}
             <p>Nenhuma tarefa encontrada.</p>
         {% endif %}
     </div>
-
 </body>
 </html>

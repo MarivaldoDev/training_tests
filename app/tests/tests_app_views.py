@@ -32,3 +32,11 @@ class AppViewsTests(TestCase):
     def test_app_tasks_template_shows_no_tasks_message_when_no_tasks(self):
         response = self.client.get(reverse("app:tasks"))
         self.assertIn(b"<p>Nenhuma tarefa encontrada.</p>", response.content)
+
+    def test_app_tasks_detail_view_function_is_correct(self):
+        view = resolve(reverse("app:task_detail", kwargs={"task_id": 1}))
+        self.assertIs(view.func, views.task_detail)
+
+    def test_app_toggle_task_completed_view_function_is_correct(self):
+        view = resolve(reverse("app:toggle_task_completed", kwargs={"task_id": 1}))
+        self.assertIs(view.func, views.toggle_task_completed)

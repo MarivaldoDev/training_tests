@@ -18,3 +18,11 @@ class AppURLsTests(TestCase):
     def test_app_tasks_url_is_correct(self):
         url = reverse("app:tasks")
         self.assertEqual(url, "/tasks/")
+
+    def test_app_task_detail_url_is_correct(self):
+        url = reverse("app:task_detail", kwargs={"task_id": 1})
+        self.assertEqual(url, "/tasks/details/1/")
+
+    def test_app_toggle_task_completed_url_is_correct(self):
+        url = reverse("app:toggle_task_completed", kwargs={"task_id": 1})
+        self.assertEqual(url, "/tasks/details/1/toggle/")

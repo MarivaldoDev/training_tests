@@ -13,4 +13,10 @@ urlpatterns = [
     ),
     path("tasks/", views.task_list, name="tasks"),
     path("categories/", views.category_list, name="categories"),
+    path("tasks/details/<int:task_id>/", views.task_detail, name="task_detail"),
+    path(
+        "tasks/details/<int:task_id>/toggle/",
+        views.toggle_task_completed,
+        name="toggle_task_completed",
+    ),
 ]
