@@ -1,10 +1,11 @@
-from django.test import TestCase
 from django.urls import resolve, reverse
 
 from app import views
 
+from .test_base_app import AppTestBase
 
-class AppViewsTests(TestCase):
+
+class AppViewsTests(AppTestBase):
     def test_app_home_view_function_is_correct(self):
         view = resolve(reverse("app:home"))
         self.assertIs(view.func, views.home)
@@ -32,6 +33,15 @@ class AppViewsTests(TestCase):
     def test_app_tasks_template_shows_no_tasks_message_when_no_tasks(self):
         response = self.client.get(reverse("app:tasks"))
         self.assertIn(b"<p>Nenhuma tarefa encontrada.</p>", response.content)
+
+    def test_app_tasks_template_loads_tasks(self):
+        self.make_task()
+        response = self.client.get(reverse("app:tasks"))
+        content = response.content.decode("utf-8")
+        response_context_tasks = response.context["tasks"]
+
+        self.assertIn("Task 1", content)
+        self.assertEqual(len(response_context_tasks), 1)
 
     def test_app_tasks_detail_view_function_is_correct(self):
         view = resolve(reverse("app:task_detail", kwargs={"task_id": 1}))

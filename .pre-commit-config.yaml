@@ -8,21 +8,21 @@ repos:
         pass_filenames: false
         stages: [pre-commit]
 
--   repo: local
-    hooks:
-    -   id: black
-        name: formatando com black
-        entry: bash -c "black ."
-        language: system
-        pass_filenames: false
-        stages: [pre-commit]
+# -   repo: local
+#     hooks:
+#     -   id: black
+#         name: formatando com black
+#         entry: bash -c "black ."
+#         language: system
+#         pass_filenames: false
+#         stages: [pre-commit]
 
--   repo: local
-    hooks:
-    -   id: isort
-        name: ordenando imports
-        entry: bash -c "isort ."
-        language: system
-        pass_filenames: false
-        stages: [pre-commit]
+# -   repo: local
+#     hooks:
+#     -   id: isort
+#         name: ordenando imports
+#         entry: bash -c "isort ."
+#         language: system
+#         pass_filenames: false
+#         stages: [pre-commit]
 
