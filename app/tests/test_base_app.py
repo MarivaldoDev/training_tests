@@ -18,7 +18,6 @@ class AppTestBase(TestCase):
         start_date="2026-01-01",
         completed=False,
     ):
-
         if category_data is None:
             category_data = {}
 

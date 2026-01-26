@@ -1,28 +1,21 @@
 repos:
--   repo: local
-    hooks:
-    -   id: requirements
-        name: atualizando requirements.txt
-        entry: bash -c "uv pip freeze > requirements.txt && git add requirements.txt"
-        language: system
-        pass_filenames: false
-        stages: [pre-commit]
+    -   repo: local
+        hooks:
+        -   id: requirements
+            name: atualizando requirements.txt
+            entry: bash -c "uv pip freeze > requirements.txt && git add requirements.txt"
+            language: system
+            pass_filenames: false
+            stages: [pre-commit]
 
-# -   repo: local
-#     hooks:
-#     -   id: black
-#         name: formatando com black
-#         entry: bash -c "black ."
-#         language: system
-#         pass_filenames: false
-#         stages: [pre-commit]
+    -   repo: https://github.com/pycqa/isort
+        rev: 5.13.2
+        hooks:
+            - id: isort
 
-# -   repo: local
-#     hooks:
-#     -   id: isort
-#         name: ordenando imports
-#         entry: bash -c "isort ."
-#         language: system
-#         pass_filenames: false
-#         stages: [pre-commit]
-
+    -   repo: https://github.com/astral-sh/ruff-pre-commit
+        rev: v0.14.14
+        hooks:
+            - id: ruff-check
+              args: [ --fix ]
+            - id: ruff-format
