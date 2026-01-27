@@ -12,7 +12,7 @@ Linux
 pip3 install pytest pytest-django # Use pytest-django apenas se estiver no django
 
 Windows
-pip install pytest pyteste-django
+pip install pytest pytest-django
 
 UV
 uv add pytest pytest-django
