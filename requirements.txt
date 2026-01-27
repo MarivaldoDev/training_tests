@@ -1,5 +1,6 @@
 asgiref==3.11.0
 cfgv==3.5.0
+coverage==7.13.2
 distlib==0.4.0
 django==6.0.1
 filelock==3.20.3
