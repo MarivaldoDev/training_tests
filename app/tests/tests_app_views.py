@@ -106,3 +106,35 @@ class AppViewsTests(AppTestBase):
             reverse("app:toggle_task_completed", kwargs={"task_id": task.id + 1})
         )
         self.assertEqual(response.status_code, 404)
+
+    def test_app_toggle_task_completed_view_marks_task_as_completed(self):
+        task = self.make_task()
+        response = self.client.post(
+            reverse("app:toggle_task_completed", kwargs={"task_id": task.id}),
+            data={"completed": "completed"},
+        )
+        task.refresh_from_db()
+        self.assertTrue(task.completed)
+        self.assertEqual(response.status_code, 302)
+
+    def test_app_toggle_task_completed_view_marks_task_as_not_completed(self):
+        task = self.make_task(completed=True)
+        response = self.client.post(
+            reverse("app:toggle_task_completed", kwargs={"task_id": task.id})
+        )
+        task.refresh_from_db()
+
+        self.assertFalse(task.completed)
+        self.assertEqual(response.status_code, 302)
+
+    def test_app_toggle_task_completed_view_get_request_does_not_change_task_status(
+        self,
+    ):
+        task = self.make_task()
+        response = self.client.get(
+            reverse("app:toggle_task_completed", kwargs={"task_id": task.id})
+        )
+        task.refresh_from_db()
+
+        self.assertFalse(task.completed)
+        self.assertEqual(response.status_code, 302)
