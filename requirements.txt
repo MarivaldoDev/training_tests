@@ -8,6 +8,7 @@ identify==2.6.15
 iniconfig==2.3.0
 nodeenv==1.10.0
 packaging==25.0
+parameterized==0.9.0
 pillow==12.1.0
 platformdirs==4.5.1
 pluggy==1.6.0

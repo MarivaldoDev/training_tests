@@ -12,7 +12,7 @@ class Task(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField(max_length=300, blank=True, null=True)
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name="tasks"
+        Category, on_delete=models.CASCADE, related_name="tasks", blank=True, null=True
     )
     start_date = models.DateField()
     finish_date = models.DateField(blank=True, null=True)

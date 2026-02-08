@@ -1,3 +1,6 @@
+from django.core.exceptions import ValidationError
+from parameterized import parameterized
+
 from .test_base_app import AppTestBase
 
 
@@ -11,3 +14,13 @@ class AppTaskModelTests(AppTestBase):
             str(self.task),
             f"{self.task.title} ({self.task.category.name}) - {'Completed' if self.task.completed else 'Not Completed'}",
         )
+
+    @parameterized.expand(
+        [
+            ("title", 150),
+        ]
+    )
+    def test_task_fields_max_lenght(self, field, max_lenght):
+        setattr(self.task, field, "A" * (max_lenght + 1))
+        with self.assertRaises(ValidationError):
+            self.task.full_clean()
