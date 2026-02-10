@@ -1,15 +1,15 @@
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
 
-from .test_base_app import AppTestBase
+from .test_base_tasks import TasksTestBase
 
 
-class AppTaskModelTests(AppTestBase):
+class TasksTaskModelTests(TasksTestBase):
     def setUp(self):
         self.task = self.make_task(title="Work")
         return super().setUp()
 
-    def test_app_model_task_str_method(self):
+    def test_tasks_model_task_str_method(self):
         self.assertEqual(
             str(self.task),
             f"{self.task.title} ({self.task.category.name}) - {'Completed' if self.task.completed else 'Not Completed'}",

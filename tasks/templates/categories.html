@@ -15,7 +15,7 @@
         {% if categories %}
             {% for category in categories %}
                 {% if category.incomplete_count > 0 %}
-                    <a href="{% url 'app:tasks_by_category' category.id %}">
+                    <a href="{% url 'tasks:tasks_by_category' category.id %}">
                     <div class="category-item">
                         <div>
                             <strong>{{ category.name }}</strong>

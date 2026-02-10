@@ -3,7 +3,7 @@ from django.test import TestCase
 from ..models import Category, Task
 
 
-class AppTestBase(TestCase):
+class TasksTestBase(TestCase):
     def setUp(self):
         return super().setUp()
 

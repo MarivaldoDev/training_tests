@@ -25,7 +25,7 @@
                     <h2 class="task-title">{{ task.title }} {% if task.completed %}<span class="task-completed">✓</span>{% endif %}</h2>
 
                     <div class="detail-meta">
-                        <div class="meta-item"><strong>Categoria</strong>: <a href="{% url 'app:tasks_by_category' task.category.id %}">{{ task.category.name }}</a></div>
+                        <div class="meta-item"><strong>Categoria</strong>: <a href="{% url 'tasks:tasks_by_category' task.category.id %}">{{ task.category.name }}</a></div>
                         <div class="meta-item"><strong>Início</strong>: {{ task.start_date }}</div>
                         {% if task.finish_date %}<div class="meta-item"><strong>Conclusão</strong>: {{ task.finish_date }}</div>{% endif %}
                     </div>
@@ -33,7 +33,7 @@
                     <div class="detail-description">{{ task.description }}</div>
 
                     <div class="detail-actions">
-                        <form method="post" action="{% url 'app:toggle_task_completed' task.id %}" style="display:inline">
+                        <form method="post" action="{% url 'tasks:toggle_task_completed' task.id %}" style="display:inline">
                             {% csrf_token %}
                             <label class="btn btn-light" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
                                 <input type="checkbox" name="completed" onchange="this.form.submit()" {% if task.completed %}checked{% endif %}>
@@ -41,7 +41,7 @@
                             </label>
                         </form>
 
-                        <a class="btn btn-light" href="{% url 'app:tasks' %}">Voltar</a>
+                        <a class="btn btn-light" href="{% url 'tasks:tasks' %}">Voltar</a>
                     </div>
                 </div>
             </div>

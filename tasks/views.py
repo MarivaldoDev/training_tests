@@ -37,4 +37,4 @@ def toggle_task_completed(request, task_id: int):
     if request.method == "POST":
         task.completed = "completed" in request.POST
         task.save()
-    return redirect("app:task_detail", task_id=task.id)
+    return redirect("tasks:task_detail", task_id=task.id)
