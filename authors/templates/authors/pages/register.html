@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Registrar — Task Manager</title>
+	<link rel="stylesheet" href="{% static 'global/css/register.css' %}">
+	<link rel="stylesheet" href="{% static 'global/css/home.css' %}">
+</head>
+<body class="register-page">
+	{% include 'partials/nav.html' %}
+
+	<main class="register-main">
+		<section class="card register-card">
+			<h1 class="card-title">Crie sua conta</h1>
+
+			{% if messages %}
+				<div class="messages">
+					{% for message in messages %}
+						<div class="message {{ message.tags }}">{{ message }}</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+
+			<form action="{% url 'authors:register'%}" method="post" class="register-form">
+				{% csrf_token %}
+
+				<label for="id_username">Nome de usuário</label>
+				{{ form.username }}
+				{% if form.username.errors %}
+					<div class="field-error">{{ form.username.errors|striptags }}</div>
+				{% endif %}
+
+				<label for="id_email">E-mail</label>
+				{{ form.email }}
+				{% if form.email.errors %}
+					<div class="field-error">{{ form.email.errors|striptags }}</div>
+				{% endif %}
+
+				<label for="id_password">Senha</label>
+				{{ form.password }}
+				{% if form.password.errors %}
+					<div class="field-error">{{ form.password.errors|striptags }}</div>
+				{% endif %}
+
+				<button type="submit" class="btn btn-primary">Criar conta</button>
+			</form>
+
+			<p class="small muted">Já tem conta? <a href="/authors/login/">Entrar</a></p>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="container">&copy; 2026 Task Manager</div>
+	</footer>
+</body>
+</html>

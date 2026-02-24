@@ -1,0 +1,52 @@
+/* Styles for registration page */
+:root{
+  --bg:#f6f8fa;
+  --card:#ffffff;
+  --accent:#1366d6;
+  --muted:#6b7280;
+}
+
+body.register-page{
+  background: linear-gradient(180deg,#f7fbff 0%,var(--bg) 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color:#0f172a;
+  margin:0;
+}
+
+.register-main{ display:flex; align-items:center; justify-content:center; padding:48px 16px; min-height:70vh; }
+
+.register-card{ width:100%; max-width:480px; background:var(--card); padding:28px; border-radius:10px; box-shadow:0 6px 20px rgba(15,23,42,0.06); }
+
+.card-title{ margin:0 0 18px 0; font-size:22px; font-weight:700; }
+
+.register-form{ display:flex; flex-direction:column; gap:12px; }
+
+.register-form label{ font-size:13px; margin-bottom:6px; color:var(--muted); }
+
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"],
+.register-form input,
+.register-form textarea{
+  width:100%; padding:10px 12px; border:1px solid #e6e9ef; border-radius:8px; font-size:14px; background:#fff; box-sizing:border-box;
+}
+
+.field-error{ color:#b91c1c; font-size:13px; margin-top:4px; }
+
+.btn{ display:inline-block; padding:10px 14px; border-radius:8px; text-decoration:none; cursor:pointer; border:0; }
+
+.btn-primary{ background:var(--accent); color:#fff; font-weight:600; }
+
+.small{ font-size:13px; margin-top:14px; }
+.small.muted{ color:var(--muted); }
+
+.messages{ margin-bottom:12px; }
+.message{ padding:10px 12px; border-radius:8px; font-size:14px; }
+.message.success{ background:#ecfdf5; color:#065f46; border:1px solid #bbf7d0; }
+.message.error{ background:#fff1f2; color:#9f1239; border:1px solid #fecaca; }
+
+.site-footer{ text-align:center; padding:24px 0; color:var(--muted); }
+
+@media (max-width:520px){
+  .register-card{ padding:18px; border-radius:8px; }
+}
