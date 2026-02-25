@@ -9,3 +9,5 @@ wheels/
 # Virtual environments
 .venv
 task_images/
+*.sqlite3
+logs/
