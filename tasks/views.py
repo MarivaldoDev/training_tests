@@ -13,20 +13,26 @@ def home(request):
     return render(request, "home.html")
 
 
-def tasks_by_category(request, category_id: int):
+def tasks_by_category(request, author_id: int, category_id: int):
     category = get_object_or_404(Category, pk=category_id)
-    tasks = category.tasks.filter(completed=False).order_by("start_date")
+    tasks = category.tasks.filter(author_id=author_id, completed=False).order_by(
+        "start_date"
+    )
     return render(request, "tasks.html", {"tasks": tasks, "category": category})
 
 
-def task_list(request):
-    tasks = Task.objects.filter(completed=False).order_by("start_date")
+def task_list(request, author_id: int):
+    tasks = Task.objects.filter(author_id=author_id, completed=False).order_by(
+        "start_date"
+    )
     return render(request, "tasks.html", {"tasks": tasks})
 
 
-def category_list(request):
+def category_list(request, author_id: int):
     categories = Category.objects.annotate(
-        incomplete_count=Count("tasks", filter=Q(tasks__completed=False))
+        incomplete_count=Count(
+            "tasks", filter=Q(tasks__author_id=author_id, tasks__completed=False)
+        )
     ).filter(incomplete_count__gt=0)
 
     return render(request, "categories.html", {"categories": categories})

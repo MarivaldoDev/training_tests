@@ -42,30 +42,3 @@ class RegisterForm(forms.ModelForm):
             user.save()
 
         return user
-
-
-class LoginForm(forms.Form):
-    email = forms.EmailField(
-        label="E-mail",
-        widget=forms.EmailInput(attrs={"placeholder": "Digite seu e-mail"}),
-    )
-    password = forms.CharField(
-        max_length=6,
-        label="Senha",
-        widget=forms.PasswordInput(attrs={"placeholder": "Digite sua senha"}),
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get("email")
-        password = cleaned_data.get("password")
-
-        if not email or not password:
-            raise forms.ValidationError("Todos os campos são obrigatórios.")
-
-        elif not User.objects.filter(email=email).exists():
-            raise forms.ValidationError(
-                "E-mail ou senha inválidos. Certifiqui-se que as credenciais estão corretas ou se realmente criou uma conta."
-            )
-
-        return cleaned_data

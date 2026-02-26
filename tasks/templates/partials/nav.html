@@ -7,10 +7,12 @@
                 <h1>📋 Task Manager</h1>
             </a>
         </div>
-        <ul class="nav-menu">
-            <li><a href="{% url 'tasks:home' %}" class="nav-link {% if current == 'home' %}active{% endif %}">Home</a></li>
-            <li><a href="{% url 'tasks:tasks' %}" class="nav-link {% if current == 'tasks' %}active{% endif %}">Tarefas</a></li>
-            <li><a href="{% url 'tasks:categories' %}" class="nav-link">Categorias</a></li>
-        </ul>
+        {% if user.is_authenticated %}
+            <ul class="nav-menu">
+                <li><a href="{% url 'authors:logout' %}" class="nav-link">Logout</a></li>
+                <li><a href="{% url 'tasks:tasks' user.id %}" class="nav-link {% if current == 'tasks' %}active{% endif %}">Tarefas</a></li>
+                <li><a href="{% url 'tasks:categories' user.id %}" class="nav-link">Categorias</a></li>
+            </ul>
+        {% endif %}
     </div>
 </nav>

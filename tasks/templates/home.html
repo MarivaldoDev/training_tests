@@ -14,9 +14,15 @@
         <div class="hero-content">
             <h2 class="hero-title">Bem-vindo ao Task Manager</h2>
             <p class="hero-subtitle">Organize suas tarefas de forma simples e eficiente</p>
-            <a href="{% url 'authors:login' %}">
-                <button class="btn btn-primary">Comece Agora</button>
-            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'tasks:tasks' user.id %}">
+                    <button class="btn btn-primary">Comece Agora</button>
+                </a>
+            {% else %}
+                <a href="{% url 'authors:login' %}">
+                    <button class="btn btn-primary">Comece Agora</button>
+                </a>
+            {% endif %}
         </div>
     </section>
 

@@ -1,7 +1,7 @@
 import logging
 
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 
@@ -19,7 +19,8 @@ def register_view(request):
             return redirect("authors:login")
         else:
             for error in form.errors:
-                messages.error(request, form.errors[error])
+                message = form.errors[error].as_text().replace("* ", "")
+                messages.error(request, message)
     else:
         form = RegisterForm()
 
@@ -33,14 +34,17 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
 
-            return redirect("authors:login")
+            return redirect("tasks:tasks", user.id)
         else:
             for error in form.errors:
-                logger.debug(
-                    f"Erro de validação no formulário de login: {form.errors[error]}"
-                )
-                messages.error(request, form.errors[error])
+                message = form.errors[error].as_text().replace("* ", "")
+                messages.error(request, message)
     else:
         form = AuthenticationForm()
 
     return render(request, "authors/pages/login.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("tasks:home")
