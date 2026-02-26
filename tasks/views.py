@@ -1,10 +1,15 @@
+import logging
+
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Category, Task
 
+logger = logging.getLogger(__name__)
+
 
 def home(request):
+    logger.info("Acessando a página inicial.")
     return render(request, "home.html")
 
 

@@ -1,51 +1,74 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-LOGS_DIR = BASE_DIR / "logs"
-LOGS_DIR.mkdir(parents=True, exist_ok=True)
-
+log_dir = os.path.join(BASE_DIR, "logs")
+os.makedirs(log_dir, exist_ok=True)
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "filters": {
-        "require_debug_false": {
-            "()": "django.utils.log.RequireDebugFalse",
-        }
-    },
     "formatters": {
-        "simple": {
-            "format": "{levelname} {asctime:s} {name} {message}",
-            "style": "{",
+        "default": {
+            "format": "[%(asctime)s] %(levelname)s %(name)s: %(message)s",
         },
-        "verbose": {
-            "format": "{levelname} {asctime:s} {name} {module}.py (line {lineno:d}) {funcName} {message}",
-            "style": "{",
+        "colored": {
+            "()": "colorlog.ColoredFormatter",
+            "format": "%(log_color)s[%(levelname)s]%(reset)s %(blue)s%(name)s:%(reset)s %(message)s",
+            "log_colors": {
+                "DEBUG": "cyan",
+                "INFO": "green",
+                "WARNING": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "bold_red",
+            },
+        },
+        "simple_format": {
+            "format": "%(levelname)s | %(name)s | %(asctime)s | %(message)s | %(filename)s | %(lineno)d",
         },
     },
     "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
-        "file": {
-            "level": "DEBUG",
+        "debug_file": {
             "class": "logging.FileHandler",
-            "filename": str(LOGS_DIR / "debug.log"),
-            "formatter": "simple",
+            "filename": os.path.join(BASE_DIR, "logs/debug.log"),
+            "level": "DEBUG",
+            "formatter": "default",
+        },
+        "info_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/info.log"),
+            "level": "INFO",
+            "formatter": "default",
+        },
+        "error_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/error.log"),
+            "level": "ERROR",
+            "formatter": "simple_format",
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "colored",
         },
     },
     "loggers": {
         "django": {
-            "level": "INFO",
             "handlers": ["console"],
+            "level": "INFO",
+        },
+        "django.utils.autoreload": {
+            "handlers": ["console"],
+            "level": "INFO",
             "propagate": False,
         },
-        "django.template": {
+        "tasks": {
+            "handlers": ["debug_file", "info_file", "error_file", "console"],
             "level": "DEBUG",
-            "handlers": ["file"],
+            "propagate": False,
+        },
+        "authors": {
+            "handlers": ["debug_file", "info_file", "error_file", "console"],
+            "level": "DEBUG",
             "propagate": False,
         },
     },
