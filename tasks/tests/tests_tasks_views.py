@@ -11,11 +11,11 @@ class TasksViewsTests(TasksTestBase):
         self.assertIs(view.func, views.home)
 
     def test_tasks_tasks_view_function_is_correct(self):
-        view = resolve(reverse("tasks:tasks"))
+        view = resolve(reverse("tasks:tasks", kwargs={"author_id": 1}))
         self.assertIs(view.func, views.task_list)
 
     def test_tasks_category_view_function_is_correct(self):
-        view = resolve(reverse("tasks:categories"))
+        view = resolve(reverse("tasks:categories", kwargs={"author_id": 1}))
         self.assertIs(view.func, views.category_list)
 
     def test_tasks_category_view_loads_categories_where_tasks_exist(self):
@@ -23,7 +23,7 @@ class TasksViewsTests(TasksTestBase):
         self.make_category(name="Category 2")
         self.make_task(category_data={"name": "Category 1"})
 
-        response = self.client.get(reverse("tasks:categories"))
+        response = self.client.get(reverse("tasks:categories", kwargs={"author_id": 1}))
         content = response.content.decode("utf-8")
         response_context_categories = response.context["categories"]
 
@@ -32,20 +32,29 @@ class TasksViewsTests(TasksTestBase):
         self.assertEqual(len(response_context_categories), 1)
 
     def test_tasks_tasks_by_category_view_function_is_correct(self):
-        view = resolve(reverse("tasks:tasks_by_category", kwargs={"category_id": 1}))
+        view = resolve(
+            reverse(
+                "tasks:tasks_by_category", kwargs={"author_id": 1, "category_id": 1}
+            )
+        )
         self.assertIs(view.func, views.tasks_by_category)
 
     def test_tasks_tasks_by_category_view_category_not_found_returns_404(self):
         category = self.make_category()
         response = self.client.get(
-            reverse("tasks:tasks_by_category", kwargs={"category_id": category.id + 1})
+            reverse(
+                "tasks:tasks_by_category",
+                kwargs={"author_id": 1, "category_id": category.id + 1},
+            )
         )
         self.assertEqual(response.status_code, 404)
 
     def test_tasks_tasks_by_category_view_loads_tasks(self):
         self.make_task(category_data={"name": "Category 1"})
         response = self.client.get(
-            reverse("tasks:tasks_by_category", kwargs={"category_id": 1})
+            reverse(
+                "tasks:tasks_by_category", kwargs={"author_id": 1, "category_id": 1}
+            )
         )
         content = response.content.decode("utf-8")
         response_context_tasks = response.context["tasks"]
@@ -62,12 +71,12 @@ class TasksViewsTests(TasksTestBase):
         self.assertTemplateUsed(response, "home.html")
 
     def test_tasks_tasks_template_shows_no_tasks_message_when_no_tasks(self):
-        response = self.client.get(reverse("tasks:tasks"))
+        response = self.client.get(reverse("tasks:tasks", kwargs={"author_id": 1}))
         self.assertIn(b"<p>Nenhuma tarefa encontrada.</p>", response.content)
 
     def test_tasks_tasks_template_loads_tasks(self):
         self.make_task()
-        response = self.client.get(reverse("tasks:tasks"))
+        response = self.client.get(reverse("tasks:tasks", kwargs={"author_id": 1}))
         content = response.content.decode("utf-8")
         response_context_tasks = response.context["tasks"]
 

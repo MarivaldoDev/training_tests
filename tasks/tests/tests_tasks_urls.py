@@ -8,16 +8,18 @@ class TasksURLsTests(TestCase):
         self.assertEqual(url, "/")
 
     def test_tasks_tasks_by_category_url_is_correct(self):
-        url = reverse("tasks:tasks_by_category", kwargs={"category_id": 1})
-        self.assertEqual(url, "/tasks/category/1/")
+        url = reverse(
+            "tasks:tasks_by_category", kwargs={"author_id": 1, "category_id": 1}
+        )
+        self.assertEqual(url, "/tasks/category/1/1/")
 
     def test_tasks_category_url_is_correct(self):
-        url = reverse("tasks:categories")
-        self.assertEqual(url, "/categories/")
+        url = reverse("tasks:categories", kwargs={"author_id": 1})
+        self.assertEqual(url, "/categories/1/")
 
     def test_tasks_tasks_url_is_correct(self):
-        url = reverse("tasks:tasks")
-        self.assertEqual(url, "/tasks/")
+        url = reverse("tasks:tasks", kwargs={"author_id": 1})
+        self.assertEqual(url, "/tasks/1/")
 
     def test_tasks_task_detail_url_is_correct(self):
         url = reverse("tasks:task_detail", kwargs={"task_id": 1})

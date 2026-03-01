@@ -31,7 +31,7 @@ def create_task(request):
     else:
         form = TaskForm()
 
-    return HttpResponse(form.as_div())
+    return HttpResponse(form.as_p())
 
 
 def tasks_by_category(request, author_id: int, category_id: int):
@@ -56,7 +56,9 @@ def category_list(request, author_id: int):
         )
     ).filter(incomplete_count__gt=0)
 
-    return render(request, "categories.html", {"categories": categories})
+    return render(
+        request, "categories.html", {"categories": categories, "author_id": author_id}
+    )
 
 
 def task_detail(request, task_id: int):

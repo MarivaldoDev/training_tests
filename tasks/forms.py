@@ -12,7 +12,6 @@ class TaskForm(forms.ModelForm):
             "category",
             "start_date",
             "image",
-            "completed",
         )
         widgets = {
             "title": forms.TextInput(
@@ -30,19 +29,19 @@ class TaskForm(forms.ModelForm):
                 attrs={"class": "form-control", "type": "date"}
             ),
             "image": forms.ClearableFileInput(attrs={"class": "form-control-file"}),
-            "completed": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
     def clean(self):
-        # cleaned_data = super().clean()
-        # title = cleaned_data.get("title")
-        # description = cleaned_data.get("description")
-        # category = cleaned_data.get("category")
-        # start_date = cleaned_data.get("start_date")
-        # image = cleaned_data.get("image")
-        # completed = cleaned_data.get("completed")
+        cleaned_data = super().clean()
+        title = cleaned_data.get("title")
+        start_date = cleaned_data.get("start_date")
 
-        pass
+        if not title and not start_date:
+            raise forms.ValidationError(
+                "Preencha pelo menos o título ou a data de início."
+            )
+
+        return cleaned_data
 
 
 class CategoryForm(forms.ModelForm):
