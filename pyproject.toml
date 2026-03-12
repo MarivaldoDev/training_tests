@@ -14,4 +14,6 @@ dependencies = [
     "pyright>=1.1.408",
     "pytest>=9.0.2",
     "pytest-django>=4.11.1",
+    "selenium>=4.41.0",
+    "webdriver-manager>=4.0.2",
 ]

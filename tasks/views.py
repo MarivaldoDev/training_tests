@@ -2,7 +2,6 @@ import logging
 
 from django.contrib import messages
 from django.db.models import Count, Q
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import TaskForm
@@ -31,7 +30,7 @@ def create_task(request):
     else:
         form = TaskForm()
 
-    return HttpResponse(form.as_p())
+    return render(request, "create_task.html", {"form": form})
 
 
 def tasks_by_category(request, author_id: int, category_id: int):
@@ -72,3 +71,7 @@ def toggle_task_completed(request, task_id: int):
         task.completed = "completed" in request.POST
         task.save()
     return redirect("tasks:task_detail", task_id=task.id)
+
+
+def dashboard(request, author_id: int):
+    return render(request, "dashboard.html", {"author_id": author_id})
