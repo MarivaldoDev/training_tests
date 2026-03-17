@@ -1,7 +1,7 @@
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.webdriver import WebDriver
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.webdriver import WebDriver
+from webdriver_manager.firefox import GeckoDriverManager
 
 
 def make_browser(*options):
@@ -11,7 +11,7 @@ def make_browser(*options):
         for option in options:
             chrome_options.add_argument(option)
 
-    chrome_service = Service(ChromeDriverManager().install())
+    chrome_service = Service(GeckoDriverManager().install())
     browser = WebDriver(service=chrome_service, options=chrome_options)
 
     return browser

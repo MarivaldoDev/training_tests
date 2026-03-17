@@ -9,3 +9,9 @@ class TaskHomePageFunctionalTest(TaskBaseFunctionalTest):
         body = self.browser.find_element(By.CLASS_NAME, "hero-title")
 
         self.assertIn("Bem-vindo ao Task Manager", body.text)
+
+    def test_nav_menu_not_shows_if_user_is_not_authenticated(self):
+        self.browser.get(self.live_server_url)
+        body = self.browser.find_element(By.CLASS_NAME, "navbar")
+
+        self.assertNotIn("Logout", body.text)
