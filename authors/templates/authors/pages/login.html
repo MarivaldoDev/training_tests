@@ -1,12 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Entrar — Task Manager</title>
-  <link rel="stylesheet" href="{% static 'global/css/login.css' %}">
-</head>
+{% include 'partials/head.html' %}
+{% block content %}<title>Login — Task Manager</title>{% endblock %}
+
 <body class="login-page">
   {% include 'partials/nav.html' %}
 
@@ -15,11 +9,7 @@
       <h1 class="card-title">Login</h1>
 
       {% if messages %}
-        <div class="messages">
-          {% for message in messages %}
-            <div class="message {{ message.tags }}">{{ message }}</div>
-          {% endfor %}
-        </div>
+        {% include 'partials/messages.html' %}
       {% endif %}
 
       <form action="{% url 'authors:login' %}" method="post" class="login-form">

@@ -1,12 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>Registrar — Task Manager</title>
-	<link rel="stylesheet" href="{% static 'global/css/register.css' %}">
-</head>
+{% include 'partials/head.html' %}
+{% block content %}<title>Registrar — Task Manager</title>{% endblock %}
+
 <body class="register-page">
 	{% include 'partials/nav.html' %}
 
@@ -15,11 +9,7 @@
 			<h1 class="card-title">Crie sua conta</h1>
 
 			{% if messages %}
-				<div class="messages">
-					{% for message in messages %}
-						<div class="message {{ message.tags }}">{{ message }}</div>
-					{% endfor %}
-				</div>
+				{% include 'partials/messages.html' %}
 			{% endif %}
 
 			<form action="{% url 'authors:register'%}" method="post" class="register-form">

@@ -1,13 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhe da Tarefa</title>
-    <link rel="stylesheet" href="{% static 'global/css/tasks.css' %}">
-    <link rel="stylesheet" href="{% static 'global/css/task_detail.css' %}">
-</head>
+{% include 'partials/head.html' %}
+{% block content %}<title>Detalhes {{ task.title }}</title>{% endblock %}
+
 <body>
     {% include 'partials/nav.html' %}
 
