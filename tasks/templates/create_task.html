@@ -1,24 +1,10 @@
-{% load static %}
-<!doctype html>
-<html lang="pt-br">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="{% static 'global/css/create_task.css' %}">
-  <title>Criar Tarefa</title>
-</head>
+{% include 'partials/head.html' %}
 <body>
+  {% include 'partials/nav.html' %}
+  <br><br><br>
   <div class="card">
     <h2>Criar Tarefa</h2>
-    <div class="messages">
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </div>
+    {% include 'partials/messages.html' %}
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
