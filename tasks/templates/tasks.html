@@ -26,6 +26,7 @@
             {% endfor %}
         {% else %}
             <p>Nenhuma tarefa encontrada.</p>
+            <p><a href="{% url 'tasks:create_task' %}">Criar nova tarefa</a></p>
         {% endif %}
     </div>
 </body>

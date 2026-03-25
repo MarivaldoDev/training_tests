@@ -38,8 +38,7 @@ def update_task(request, task_id: int):
     if request.method == "POST":
         form = TaskUpdateForm(request.POST, request.FILES, instance=task)
         if form.is_valid():
-            task_instance = form.save(commit=False)
-            task_instance.save()
+            form.save()
             return redirect("tasks:task_detail", task_id=task.id)
         else:
             for error in form.errors:
@@ -49,6 +48,14 @@ def update_task(request, task_id: int):
         form = TaskUpdateForm(instance=task)
 
     return render(request, "update_task.html", {"form": form, "task": task})
+
+
+def delete_task(request, task_id: int):
+    task = get_object_or_404(Task, pk=task_id)
+    if request.method == "POST":
+        task.delete()
+        return redirect("tasks:tasks", request.user.id)
+    return render(request, "tasks.html", {"task": task})
 
 
 def tasks_by_category(request, author_id: int, category_id: int):

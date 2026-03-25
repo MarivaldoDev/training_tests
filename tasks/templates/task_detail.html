@@ -31,10 +31,14 @@
                             {% csrf_token %}
                             <label class="btn btn-light" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
                                 <input type="checkbox" name="completed" onchange="this.form.submit()" {% if task.completed %}checked{% endif %}>
-                                Concluída
+                                Concluída        
                             </label>
                         </form>
-                        <a href="{% url 'tasks:update_task' task.id %}">Editar</a>
+                        <a href="{% url 'tasks:update_task' task.id %}" class="btn btn-warning">Editar</a>
+                        <form method="post" action="{% url 'tasks:delete_task' task.id %}" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -35,9 +35,11 @@ class TaskForm(forms.ModelForm):
             ),
             "category": forms.Select(attrs={"class": "form-control"}),
             "start_date": forms.DateInput(
-                attrs={"class": "form-control", "type": "date"}
+                format="%Y-%m-%d", attrs={"class": "form-control", "type": "date"}
             ),
-            "image": forms.ClearableFileInput(attrs={"class": "form-control-file"}),
+            "image": forms.FileInput(
+                attrs={"class": "form-control-file", "accept": "image/*"}
+            ),
         }
 
     def clean(self):

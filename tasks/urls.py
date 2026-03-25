@@ -9,6 +9,7 @@ urlpatterns = [
     path("dashboard/<int:author_id>/", views.dashboard, name="dashboard"),
     path("tasks/create/", views.create_task, name="create_task"),
     path("tasks/update/<int:task_id>/", views.update_task, name="update_task"),
+    path("tasks/delete/<int:task_id>/", views.delete_task, name="delete_task"),
     path(
         "tasks/category/<int:author_id>/<int:category_id>/",
         views.tasks_by_category,

@@ -1,16 +1,16 @@
 {% include 'partials/head.html' %}
 <body>
   {% include 'partials/nav.html' %}
-  <br><br><br>
+  <br><br>
   <div class="card">
-    <h2>Criar Tarefa</h2>
+    <h2>Editar Tarefa</h2>
     {% include 'partials/messages.html' %}
     <form method="post" enctype="multipart/form-data" action="{% url 'tasks:update_task' task.id %}">
       {% csrf_token %}
       {{ form.as_p }}
       <div class="actions">
         <button type="submit">Salvar</button>
-        <a href="{% url 'tasks:dashboard' request.user.id %}">Voltar</a>
+        <a href="{% url 'tasks:task_detail' task.id %}" class="btn btn-secondary">Voltar</a>
       </div>
     </form>
   </div>
