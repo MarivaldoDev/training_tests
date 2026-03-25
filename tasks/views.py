@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import TaskForm
+from .forms import TaskForm, TaskUpdateForm
 from .models import Category, Task
 
 logger = logging.getLogger(__name__)
@@ -31,6 +31,24 @@ def create_task(request):
         form = TaskForm()
 
     return render(request, "create_task.html", {"form": form})
+
+
+def update_task(request, task_id: int):
+    task = get_object_or_404(Task, pk=task_id)
+    if request.method == "POST":
+        form = TaskUpdateForm(request.POST, request.FILES, instance=task)
+        if form.is_valid():
+            task_instance = form.save(commit=False)
+            task_instance.save()
+            return redirect("tasks:task_detail", task_id=task.id)
+        else:
+            for error in form.errors:
+                message = form.errors[error].as_text().replace("* ", "")
+                messages.error(request, message)
+    else:
+        form = TaskUpdateForm(instance=task)
+
+    return render(request, "update_task.html", {"form": form, "task": task})
 
 
 def tasks_by_category(request, author_id: int, category_id: int):

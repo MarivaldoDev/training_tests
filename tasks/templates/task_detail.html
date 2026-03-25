@@ -3,6 +3,7 @@
 
 <body>
     {% include 'partials/nav.html' %}
+    <br><br>
 
     <div class="container task-list">
         <h2 class="section-title">Detalhe da Tarefa</h2>
@@ -33,8 +34,7 @@
                                 Concluída
                             </label>
                         </form>
-
-                        <a class="btn btn-light" href="{% url 'tasks:tasks' task.author.id %}">Voltar</a>
+                        <a href="{% url 'tasks:update_task' task.id %}">Editar</a>
                     </div>
                 </div>
             </div>

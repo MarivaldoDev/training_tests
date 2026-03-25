@@ -13,6 +13,15 @@ class TaskForm(forms.ModelForm):
             "start_date",
             "image",
         )
+
+        labels = {
+            "title": "Título",
+            "description": "Descrição",
+            "category": "Categoria",
+            "start_date": "Data de Início",
+            "image": "Imagem (opcional)",
+        }
+
         widgets = {
             "title": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Título da tarefa"}
@@ -42,6 +51,14 @@ class TaskForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+
+class TaskUpdateForm(TaskForm):
+    def save(self, commit=True):
+        task = super().save(commit=False)
+        if commit:
+            task.save()
+        return task
 
 
 class CategoryForm(forms.ModelForm):
