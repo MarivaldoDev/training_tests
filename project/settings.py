@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+from decouple import config
+
 from .logging import LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,14 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-6v)6u4%l2crjt^aj!&jb6i#451nnpmfsg)cmskil%@-!&#*as+"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
-    "https://d49c-170-239-111-220.ngrok-free.app",
+    "https://9026-2804-3670-e03b-f501-82ae-a694-6d94-ea96.ngrok-free.app",
 ]
 
 

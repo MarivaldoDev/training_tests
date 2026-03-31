@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from django.contrib import messages
 from django.db.models import Count, Q
@@ -94,6 +95,7 @@ def toggle_task_completed(request, task_id: int):
     task = get_object_or_404(Task, pk=task_id)
     if request.method == "POST":
         task.completed = "completed" in request.POST
+        task.finish_date = datetime.now().date() if task.completed else None
         task.save()
     return redirect("tasks:task_detail", task_id=task.id)
 

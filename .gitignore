@@ -11,3 +11,4 @@ wheels/
 task_images/
 *.sqlite3
 logs/
+.env

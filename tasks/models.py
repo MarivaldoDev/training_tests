@@ -22,4 +22,4 @@ class Task(models.Model):
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.title} ({self.category.name}) - {'Completed' if self.completed else 'Not Completed'}"
+        return f"{self.title} - {'Completed' if self.completed else 'Not Completed'}"

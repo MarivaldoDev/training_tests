@@ -17,7 +17,7 @@
 
 .detail-image img {
   width: 100%;
-  height: auto;
+  height: 10rem;
   border-radius: 6px;
   object-fit: cover;
   box-shadow: 0 2px 6px rgba(16,24,40,0.06);
