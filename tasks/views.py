@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import TaskForm, TaskUpdateForm
+from .forms import CategoryForm, TaskForm, TaskUpdateForm
 from .models import Category, Task
 
 logger = logging.getLogger(__name__)
@@ -98,6 +98,23 @@ def toggle_task_completed(request, task_id: int):
         task.finish_date = datetime.now().date() if task.completed else None
         task.save()
     return redirect("tasks:task_detail", task_id=task.id)
+
+
+def create_category(request):
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("tasks:categories", request.user.id)
+        else:
+            for error in form.errors:
+                message = form.errors[error].as_text().replace("* ", "")
+                print(message)
+                messages.error(request, message)
+    else:
+        form = CategoryForm()
+
+    return render(request, "create_category.html", {"form": form})
 
 
 def dashboard(request, author_id: int):

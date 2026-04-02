@@ -51,6 +51,8 @@ class TaskForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Preencha pelo menos o título ou a data de início."
             )
+        elif Task.objects.filter(title=title).exists():
+            raise forms.ValidationError("Já existe uma tarefa com esse título.")
 
         return cleaned_data
 
@@ -67,6 +69,9 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ("name",)
+        labels = {
+            "name": "Nome",
+        }
         widgets = {
             "name": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Nome da categoria"}

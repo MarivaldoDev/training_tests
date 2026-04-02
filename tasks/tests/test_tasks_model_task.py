@@ -12,7 +12,7 @@ class TasksTaskModelTests(TasksTestBase):
     def test_tasks_model_task_str_method(self):
         self.assertEqual(
             str(self.task),
-            f"{self.task.title} ({self.task.category.name}) - {'Completed' if self.task.completed else 'Not Completed'}",
+            f"{self.task.title} - {'Completed' if self.task.completed else 'Not Completed'}",
         )
 
     @parameterized.expand(

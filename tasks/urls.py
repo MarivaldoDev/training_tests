@@ -17,6 +17,7 @@ urlpatterns = [
     ),
     path("tasks/<int:author_id>/", views.task_list, name="tasks"),
     path("categories/<int:author_id>/", views.category_list, name="categories"),
+    path("categories/create/", views.create_category, name="create_category"),
     path("tasks/details/<int:task_id>/", views.task_detail, name="task_detail"),
     path(
         "tasks/details/<int:task_id>/toggle/",
