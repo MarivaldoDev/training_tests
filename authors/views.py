@@ -1,48 +1,41 @@
 import logging
 
-from django.contrib import messages
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import redirect, render
+from django.contrib.auth import logout
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
+from django.urls import reverse, reverse_lazy
+from django.views.generic.edit import FormView
+
+from utils.functions import list_errors
 
 from .forms import RegisterForm
 
 logger = logging.getLogger(__name__)
 
 
-def register_view(request):
-    logger.info("Acessando a página de registro.")
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("authors:login")
-        else:
-            for error in form.errors:
-                message = form.errors[error].as_text().replace("* ", "")
-                messages.error(request, message)
-    else:
-        form = RegisterForm()
+class RegisterView(FormView):
+    template_name = "authors/pages/register.html"
+    form_class = RegisterForm
+    success_url = reverse_lazy("authors:login")
 
-    return render(request, "authors/pages/register.html", {"form": form})
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        list_errors(self.request, form)
+        return super().form_invalid(form)
 
 
-def login_view(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
+class MyLoginView(LoginView):
+    template_name = "authors/pages/login.html"
 
-            return redirect("tasks:tasks", user.id)
-        else:
-            for error in form.errors:
-                message = form.errors[error].as_text().replace("* ", "")
-                messages.error(request, message)
-    else:
-        form = AuthenticationForm()
+    def form_invalid(self, form):
+        list_errors(self.request, form)
+        return super().form_invalid(form)
 
-    return render(request, "authors/pages/login.html", {"form": form})
+    def get_success_url(self):
+        return reverse("tasks:tasks", kwargs={"author_id": self.request.user.id})
 
 
 def logout_view(request):

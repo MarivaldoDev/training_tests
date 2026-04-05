@@ -1,98 +1,79 @@
 from datetime import datetime
 
-from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views import View
+from django.urls import reverse
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
+from utils.functions import list_errors
 
 from ..forms import CategoryForm, TaskForm, TaskUpdateForm
-from ..models import Task
+from ..models import Category, Task
 
 
-class CreateTask(View):
-    def render_form(self, form):
-        return render(self.request, "create_task.html", {"form": form})
+class CreateTask(CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "create_task.html"
 
-    def get(self, request):
-        form = TaskForm()
-        return self.render_form(form)
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
-    def post(self, request):
-        form = TaskForm(request.POST, request.FILES)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.author = request.user
-            task.save()
-            return redirect("tasks:tasks", request.user.id)
-        else:
-            for error in form.errors:
-                message = form.errors[error].as_text().replace("* ", "")
-                messages.error(request, message)
+    def form_invalid(self, form):
+        list_errors(self.request, form)
+        return super().form_invalid(form)
 
-        return self.render_form(form)
+    def get_success_url(self):
+        return reverse("tasks:tasks", kwargs={"author_id": self.object.author.id})
 
 
-class UpdateTask(View):
-    def render_form(self, form, task):
-        return render(self.request, "update_task.html", {"form": form, "task": task})
+class UpdateTask(UpdateView):
+    model = Task
+    form_class = TaskUpdateForm
+    template_name = "update_task.html"
 
-    def get_task(self, task_id):
-        task = get_object_or_404(Task, pk=task_id)
-        return task
+    def form_invalid(self, form):
+        list_errors(self.request, form)
+        return super().form_invalid(form)
 
-    def get(self, request, task_id):
-        task = self.get_task(task_id)
-        form = TaskForm(instance=task)
-
-        return self.render_form(form, task)
-
-    def post(self, request, task_id):
-        task = self.get_task(task_id)
-        form = TaskUpdateForm(request.POST, request.FILES, instance=task)
-        if form.is_valid():
-            form.save()
-            return redirect("tasks:task_detail", task_id=task_id)
-        else:
-            for error in form.errors:
-                message = form.errors[error].as_text().replace("* ", "")
-                messages.error(request, message)
-
-        return self.render_form(form, task)
+    def get_success_url(self):
+        return reverse("tasks:task_detail", kwargs={"task_id": self.object.id})
 
 
-class DeleteTask(UpdateTask):
-    def post(self, request, task_id):
-        task = self.get_task(task_id)
-        task.delete()
-        return redirect("tasks:tasks", request.user.id)
+class DeleteTask(DeleteView):
+    model = Task
+    template_name = "task_detail.html"
+
+    def get_success_url(self):
+        return reverse("tasks:tasks", kwargs={"author_id": self.object.author.id})
 
 
-class ToggleTaskCompleted(UpdateTask):
-    def post(self, request, task_id):
-        task = self.get_task(task_id)
-        if "completed" in request.POST:
+class ToggleTaskCompleted(UpdateView):
+    model = Task
+    fields = []  # não precisa de form
+    template_name = "task_detail.html"
+
+    def form_valid(self, form):
+        task = self.get_object()
+
+        if "completed" in self.request.POST:
             task.completed = True
-            task.finish_date = datetime.now().date()
+            task.finish_date = datetime.now()
+
         task.save()
+        return super().form_valid(form)
 
-        return redirect("tasks:task_detail", task_id=task_id)
+    def get_success_url(self):
+        return reverse("tasks:task_detail", kwargs={"task_id": self.object.id})
 
 
-class CreateCategory(View):
-    def render_form(self, form):
-        return render(self.request, "create_category.html", {"form": form})
+class CreateCategory(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = "create_category.html"
 
-    def get(self, request):
-        form = CategoryForm()
-        return self.render_form(form)
+    def form_invalid(self, form):
+        list_errors(self.request, form)
+        return super().form_invalid(form)
 
-    def post(self, request):
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("tasks:categories", request.user.id)
-        else:
-            for error in form.errors:
-                message = form.errors[error].as_text().replace("* ", "")
-                messages.error(request, message)
-
-        return self.render_form(form)
+    def get_success_url(self):
+        return reverse("tasks:categories", kwargs={"author_id": self.request.user.id})

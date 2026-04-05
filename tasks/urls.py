@@ -9,12 +9,12 @@ urlpatterns = [
     path("dashboard/<int:author_id>/", all.dashboard, name="dashboard"),
     path("tasks/create/", cbv_views.CreateTask.as_view(), name="create_task"),
     path(
-        "tasks/update/<int:task_id>/",
+        "tasks/update/<int:pk>/",
         cbv_views.UpdateTask.as_view(),
         name="update_task",
     ),
     path(
-        "tasks/delete/<int:task_id>/",
+        "tasks/delete/<int:pk>/",
         cbv_views.DeleteTask.as_view(),
         name="delete_task",
     ),
@@ -30,7 +30,7 @@ urlpatterns = [
     ),
     path("tasks/details/<int:task_id>/", all.task_detail, name="task_detail"),
     path(
-        "tasks/details/<int:task_id>/toggle/",
+        "tasks/details/<int:pk>/toggle/",
         cbv_views.ToggleTaskCompleted.as_view(),
         name="toggle_task_completed",
     ),
