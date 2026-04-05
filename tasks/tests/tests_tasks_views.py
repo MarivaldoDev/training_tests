@@ -1,22 +1,21 @@
 from django.urls import resolve, reverse
 
-from tasks import views
-
+from ..views import all, cbv_views
 from .test_base_tasks import TasksTestBase
 
 
 class TasksViewsTests(TasksTestBase):
     def test_tasks_home_view_function_is_correct(self):
         view = resolve(reverse("tasks:home"))
-        self.assertIs(view.func, views.home)
+        self.assertIs(view.func, all.home)
 
     def test_tasks_tasks_view_function_is_correct(self):
         view = resolve(reverse("tasks:tasks", kwargs={"author_id": 1}))
-        self.assertIs(view.func, views.task_list)
+        self.assertIs(view.func, all.task_list)
 
     def test_tasks_category_view_function_is_correct(self):
         view = resolve(reverse("tasks:categories", kwargs={"author_id": 1}))
-        self.assertIs(view.func, views.category_list)
+        self.assertIs(view.func, all.category_list)
 
     def test_tasks_category_view_loads_categories_where_tasks_exist(self):
         self.make_category(name="Category 1")
@@ -37,7 +36,7 @@ class TasksViewsTests(TasksTestBase):
                 "tasks:tasks_by_category", kwargs={"author_id": 1, "category_id": 1}
             )
         )
-        self.assertIs(view.func, views.tasks_by_category)
+        self.assertIs(view.func, all.tasks_by_category)
 
     def test_tasks_tasks_by_category_view_category_not_found_returns_404(self):
         category = self.make_category()
@@ -85,7 +84,7 @@ class TasksViewsTests(TasksTestBase):
 
     def test_tasks_task_detail_view_function_is_correct(self):
         view = resolve(reverse("tasks:task_detail", kwargs={"task_id": 1}))
-        self.assertIs(view.func, views.task_detail)
+        self.assertIs(view.func, all.task_detail)
 
     def test_tasks_task_detail_view_task_not_found_returns_404(self):
         task = self.make_task()
@@ -107,7 +106,7 @@ class TasksViewsTests(TasksTestBase):
 
     def test_tasks_toggle_task_completed_view_function_is_correct(self):
         view = resolve(reverse("tasks:toggle_task_completed", kwargs={"task_id": 1}))
-        self.assertIs(view.func, views.toggle_task_completed)
+        self.assertIs(view.func, cbv_views.toggle_task_completed)
 
     def test_tasks_toggle_task_completed_view_task_not_found_returns_404(self):
         task = self.make_task()

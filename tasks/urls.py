@@ -30,8 +30,8 @@ urlpatterns = [
     ),
     path("tasks/details/<int:task_id>/", all.task_detail, name="task_detail"),
     path(
-        "tasks/details/<int:pk>/toggle/",
-        cbv_views.ToggleTaskCompleted.as_view(),
+        "tasks/details/<int:task_id>/toggle/",
+        cbv_views.toggle_task_completed,
         name="toggle_task_completed",
     ),
 ]
