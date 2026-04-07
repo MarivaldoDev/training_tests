@@ -3,10 +3,6 @@ from django.test import TestCase
 from django.urls import reverse
 
 
-def make_user(username="user", password="123456"):
-    return User.objects.create(username=username, password=password)
-
-
 class AuthorsViewsTests(TestCase):
     def test_authors_register_view_returns_error_message_on_invalid_form(self):
         response = self.client.post(reverse("authors:register"), data={})
@@ -27,7 +23,8 @@ class AuthorsViewsTests(TestCase):
         self.assertIn("Este campo é obrigatório.", content)
 
     def test_authors_logout_view_logs_out_user_and_redirects_to_home(self):
-        self.client.force_login(make_user())
+        user = User.objects.create(username="testuser", password="testpassword")
+        self.client.force_login(user)
         response = self.client.get(reverse("authors:logout"))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("tasks:home"))
