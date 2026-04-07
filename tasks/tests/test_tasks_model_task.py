@@ -6,8 +6,8 @@ from .test_base_tasks import TasksTestBase
 
 class TasksTaskModelTests(TasksTestBase):
     def setUp(self):
+        super().setUp()
         self.task = self.make_task(title="Work")
-        return super().setUp()
 
     def test_tasks_model_task_str_method(self):
         self.assertEqual(

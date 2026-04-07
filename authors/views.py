@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -38,6 +39,7 @@ class MyLoginView(LoginView):
         return reverse("tasks:tasks", kwargs={"author_id": self.request.user.id})
 
 
+@login_required(login_url="authors:login")
 def logout_view(request):
     logout(request)
     return redirect("tasks:home")

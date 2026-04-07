@@ -53,7 +53,6 @@ class DeleteTask(DeleteView):
         return reverse("tasks:tasks", kwargs={"author_id": self.object.author.id})
 
 
-@method_decorator(login_required(login_url="authors:login"), name="dispatch")
 def toggle_task_completed(request, task_id: int):
     task = get_object_or_404(Task, pk=task_id, author=request.user)
 

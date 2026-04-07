@@ -6,6 +6,8 @@ from ..models import Category, Task
 
 class TasksTestBase(TestCase):
     def setUp(self):
+        self.user = self.make_user()
+        self.client.force_login(self.user)
         return super().setUp()
 
     def make_category(self, name="Category"):
@@ -27,13 +29,13 @@ class TasksTestBase(TestCase):
             category_data = {}
 
         if author_data is None:
-            author_data = {}
+            author_data = self.user
 
         return Task.objects.create(
             title=title,
             description=description,
             category=self.make_category(**category_data),
-            author=self.make_user(**author_data),
+            author=author_data,
             start_date=start_date,
             completed=completed,
         )
