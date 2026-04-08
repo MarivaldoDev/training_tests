@@ -1,37 +1,41 @@
 from django.urls import path
 
-from .views import all, cbv_views
+from .views import views_category, views_tasks
 
 app_name = "tasks"
 
 urlpatterns = [
-    path("", all.home, name="home"),
-    path("dashboard/<int:author_id>/", all.dashboard, name="dashboard"),
-    path("tasks/create/", cbv_views.CreateTask.as_view(), name="create_task"),
+    path("", views_category.home, name="home"),
+    path("dashboard/<int:author_id>/", views_category.dashboard, name="dashboard"),
+    path("tasks/create/", views_tasks.CreateTask.as_view(), name="create_task"),
     path(
         "tasks/update/<int:pk>/",
-        cbv_views.UpdateTask.as_view(),
+        views_tasks.UpdateTask.as_view(),
         name="update_task",
     ),
     path(
         "tasks/delete/<int:pk>/",
-        cbv_views.DeleteTask.as_view(),
+        views_tasks.DeleteTask.as_view(),
         name="delete_task",
     ),
     path(
         "tasks/category/<int:author_id>/<int:category_id>/",
-        all.tasks_by_category,
+        views_tasks.tasks_by_category,
         name="tasks_by_category",
     ),
-    path("tasks/<int:author_id>/", all.task_list, name="tasks"),
-    path("categories/<int:author_id>/", all.category_list, name="categories"),
+    path("tasks/<int:author_id>/", views_tasks.task_list, name="tasks"),
     path(
-        "categories/create/", cbv_views.CreateCategory.as_view(), name="create_category"
+        "categories/<int:author_id>/", views_category.category_list, name="categories"
     ),
-    path("tasks/details/<int:task_id>/", all.task_detail, name="task_detail"),
+    path(
+        "categories/create/",
+        views_category.CreateCategory.as_view(),
+        name="create_category",
+    ),
+    path("tasks/details/<int:task_id>/", views_tasks.task_detail, name="task_detail"),
     path(
         "tasks/details/<int:task_id>/toggle/",
-        cbv_views.toggle_task_completed,
+        views_tasks.toggle_task_completed,
         name="toggle_task_completed",
     ),
 ]

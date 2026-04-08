@@ -51,7 +51,7 @@ class TaskForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Preencha pelo menos o título ou a data de início."
             )
-        elif Task.objects.filter(title=title).exists():
+        elif Task.objects.filter(title=title).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("Já existe uma tarefa com esse título.")
 
         return cleaned_data
@@ -84,7 +84,15 @@ class CategoryForm(forms.ModelForm):
 
         if not name:
             raise forms.ValidationError("O nome da categoria é obrigatório.")
-        elif Category.objects.filter(name=name).exists():
+        elif Category.objects.filter(name=name).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("Essa categoria já existe.")
 
         return cleaned_data
+
+
+class CategoryUpdateForm(CategoryForm):
+    def save(self, commit=True):
+        category = super().save(commit=False)
+        if commit:
+            category.save()
+        return category

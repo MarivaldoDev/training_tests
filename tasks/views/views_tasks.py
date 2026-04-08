@@ -1,14 +1,14 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from utils.functions import list_errors
+from utils.functions import list_errors, pagination
 
-from ..forms import CategoryForm, TaskForm, TaskUpdateForm
+from ..forms import TaskForm, TaskUpdateForm
 from ..models import Category, Task
 
 
@@ -40,6 +40,11 @@ class UpdateTask(UpdateView):
         list_errors(self.request, form)
         return super().form_invalid(form)
 
+    def form_valid(self, form):
+        if not form.has_changed():
+            return redirect(self.get_success_url())
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse("tasks:task_detail", kwargs={"task_id": self.object.id})
 
@@ -53,6 +58,7 @@ class DeleteTask(DeleteView):
         return reverse("tasks:tasks", kwargs={"author_id": self.object.author.id})
 
 
+@login_required(login_url="authors:login")
 def toggle_task_completed(request, task_id: int):
     task = get_object_or_404(Task, pk=task_id, author=request.user)
 
@@ -64,15 +70,26 @@ def toggle_task_completed(request, task_id: int):
     return redirect("tasks:task_detail", task_id=task.id)
 
 
-@method_decorator(login_required(login_url="authors:login"), name="dispatch")
-class CreateCategory(CreateView):
-    model = Category
-    form_class = CategoryForm
-    template_name = "create_category.html"
+@login_required(login_url="authors:login")
+def tasks_by_category(request, author_id: int, category_id: int):
+    category = get_object_or_404(Category, pk=category_id)
+    tasks = category.tasks.filter(author_id=author_id, completed=False).order_by(
+        "start_date"
+    )
+    page_obj = pagination(request, tasks, per_page=5)
+    return render(request, "tasks.html", {"page_obj": page_obj})
 
-    def form_invalid(self, form):
-        list_errors(self.request, form)
-        return super().form_invalid(form)
 
-    def get_success_url(self):
-        return reverse("tasks:categories", kwargs={"author_id": self.request.user.id})
+@login_required(login_url="authors:login")
+def task_list(request, author_id: int):
+    tasks = Task.objects.filter(author_id=author_id, completed=False).order_by(
+        "start_date"
+    )
+    page_obj = pagination(request, tasks, per_page=5)
+    return render(request, "tasks.html", {"page_obj": page_obj})
+
+
+@login_required(login_url="authors:login")
+def task_detail(request, task_id: int):
+    task = get_object_or_404(Task, pk=task_id, author=request.user)
+    return render(request, "task_detail.html", {"task": task})
