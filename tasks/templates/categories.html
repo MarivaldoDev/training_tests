@@ -11,19 +11,22 @@
             {% for category in categories %}
                 {% if category.incomplete_count > 0 %}
                     <a href="{% url 'tasks:tasks_by_category' author_id category.id %}">
-                    <div class="category-item">
-                        <div>
-                            <strong>{{ category.name }}</strong>
-                            <div>{{ category.incomplete_count }} tarefa(s) pendente(s)</div>
+                        <div class="category-item">
+                            <div>
+                                <strong>{{ category.name }}</strong>
+                                <div>{{ category.incomplete_count }} tarefa(s) pendente(s)</div>
+                            </div>
+                            <div class="count">Ver →</div>
                         </div>
-                        <div class="count">Ver →</div>
-                    </div>
                     </a>
+                    <form method="post" action="{% url 'tasks:delete_category' category.id %}" style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
                 {% endif %}
             {% endfor %}
         {% else %}
             <p>Nenhuma categoria encontrada.</p>
         {% endif %}
     </div>
-
 </body>

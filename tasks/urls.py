@@ -32,6 +32,16 @@ urlpatterns = [
         views_category.CreateCategory.as_view(),
         name="create_category",
     ),
+    path(
+        "categories/update/<int:pk>/",
+        views_category.UpdateCategory.as_view(),
+        name="update_category",
+    ),
+    path(
+        "categories/delete/<int:pk>/",
+        views_category.DeleteCategory.as_view(),
+        name="delete_category",
+    ),
     path("tasks/details/<int:task_id>/", views_tasks.task_detail, name="task_detail"),
     path(
         "tasks/details/<int:task_id>/toggle/",

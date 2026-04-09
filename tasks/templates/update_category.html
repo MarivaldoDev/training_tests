@@ -3,9 +3,9 @@
   {% include 'partials/nav.html' %}
   <br><br><br>
   <div class="card">
-    <h2>Criar Categoria</h2>
+    <h2>Atualizar Categoria</h2>
     {% include 'partials/messages.html' %}
-    <form method="post" enctype="multipart/form-data" action="{% url 'tasks:create_category' %}">
+    <form method="post" enctype="multipart/form-data" action="{% url 'tasks:update_category' category.id %}">
       {% csrf_token %}
       {{ form.as_p }}
       <div class="actions">
