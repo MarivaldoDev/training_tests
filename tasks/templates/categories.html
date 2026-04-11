@@ -19,10 +19,6 @@
                             <div class="count">Ver →</div>
                         </div>
                     </a>
-                    <form method="post" action="{% url 'tasks:delete_category' category.id %}" style="display:inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Excluir</button>
-                    </form>
                 {% endif %}
             {% endfor %}
         {% else %}

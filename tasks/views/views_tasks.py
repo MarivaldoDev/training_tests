@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from utils.functions import list_errors, pagination
 
+from ..decorators.decorator import user_only
 from ..forms import TaskForm, TaskUpdateForm
 from ..models import Category, Task
 
@@ -71,6 +72,7 @@ def toggle_task_completed(request, task_id: int):
 
 
 @login_required(login_url="authors:login")
+@user_only
 def tasks_by_category(request, author_id: int, category_id: int):
     category = get_object_or_404(Category, pk=category_id)
     tasks = category.tasks.filter(author_id=author_id, completed=False).order_by(
@@ -81,6 +83,7 @@ def tasks_by_category(request, author_id: int, category_id: int):
 
 
 @login_required(login_url="authors:login")
+@user_only
 def task_list(request, author_id: int):
     tasks = Task.objects.filter(author_id=author_id, completed=False).order_by(
         "start_date"
@@ -90,6 +93,8 @@ def task_list(request, author_id: int):
 
 
 @login_required(login_url="authors:login")
+@user_only
 def task_detail(request, task_id: int):
-    task = get_object_or_404(Task, pk=task_id, author=request.user)
+    task = get_object_or_404(Task, pk=task_id)
+    print(task.author.username, request.user.username)
     return render(request, "task_detail.html", {"task": task})
