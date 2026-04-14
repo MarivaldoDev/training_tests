@@ -19,7 +19,7 @@ def user_only(view_func):
     def wrapper(request, *args, **kwargs):
         request_user = request.user
         author_id = kwargs.get("author_id")
-        task_id = kwargs.get("task_id")
+        task_id = kwargs.get("task_id") or kwargs.get("pk")
 
         if author_id is not None:
             target_user = get_object_or_404(User, id=author_id)

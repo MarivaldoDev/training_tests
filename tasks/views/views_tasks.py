@@ -31,7 +31,9 @@ class CreateTask(CreateView):
         return reverse("tasks:tasks", kwargs={"author_id": self.object.author.id})
 
 
-@method_decorator(login_required(login_url="authors:login"), name="dispatch")
+@method_decorator(
+    [login_required(login_url="authors:login"), user_only], name="dispatch"
+)
 class UpdateTask(UpdateView):
     model = Task
     form_class = TaskUpdateForm
@@ -50,7 +52,9 @@ class UpdateTask(UpdateView):
         return reverse("tasks:task_detail", kwargs={"task_id": self.object.id})
 
 
-@method_decorator(login_required(login_url="authors:login"), name="dispatch")
+@method_decorator(
+    [login_required(login_url="authors:login"), user_only], name="dispatch"
+)
 class DeleteTask(DeleteView):
     model = Task
     template_name = "task_detail.html"
@@ -60,8 +64,9 @@ class DeleteTask(DeleteView):
 
 
 @login_required(login_url="authors:login")
+@user_only
 def toggle_task_completed(request, task_id: int):
-    task = get_object_or_404(Task, pk=task_id, author=request.user)
+    task = get_object_or_404(Task, pk=task_id)
 
     if request.method == "POST":
         task.completed = "completed" in request.POST
@@ -96,5 +101,4 @@ def task_list(request, author_id: int):
 @user_only
 def task_detail(request, task_id: int):
     task = get_object_or_404(Task, pk=task_id)
-    print(task.author.username, request.user.username)
     return render(request, "task_detail.html", {"task": task})

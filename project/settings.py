@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
-    "https://9026-2804-3670-e03b-f501-82ae-a694-6d94-ea96.ngrok-free.app",
+    "https://5138-2804-3670-e03b-f501-b1d-998b-4ab6-b5a8.ngrok-free.app",
 ]
 
 
@@ -125,3 +125,15 @@ STATICFILES_DIRS = (BASE_DIR / "base_static",)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 LOGGING = LOGGING
+
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+# DEFAULT_FROM_EMAIL = "testesdepython2@gmail.com"
+# EMAIL_HOST = config("EMAIL_HOST")
+# EMAIL_PORT = config("EMAIL_PORT")
+# EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")

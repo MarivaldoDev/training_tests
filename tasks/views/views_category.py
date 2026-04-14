@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from utils.functions import list_errors
 
+from ..decorators.decorator import user_only
 from ..forms import CategoryForm, CategoryUpdateForm
 from ..models import Category
 
@@ -34,7 +35,9 @@ class CreateCategory(CreateView):
         return reverse("tasks:categories", kwargs={"author_id": self.request.user.id})
 
 
-@method_decorator(login_required(login_url="authors:login"), name="dispatch")
+@method_decorator(
+    [login_required(login_url="authors:login"), user_only], name="dispatch"
+)
 class UpdateCategory(UpdateView):
     model = Category
     form_class = CategoryUpdateForm
@@ -53,7 +56,9 @@ class UpdateCategory(UpdateView):
         return reverse("tasks:dashboard", kwargs={"author_id": self.request.user.id})
 
 
-@method_decorator(login_required(login_url="authors:login"), name="dispatch")
+@method_decorator(
+    [login_required(login_url="authors:login"), user_only], name="dispatch"
+)
 class DeleteCategory(DeleteView):
     model = Category
     template_name = "categories.html"
@@ -63,6 +68,7 @@ class DeleteCategory(DeleteView):
 
 
 @login_required(login_url="authors:login")
+@user_only
 def category_list(request, author_id: int):
     categories = Category.objects.annotate(
         incomplete_count=Count(
@@ -76,5 +82,6 @@ def category_list(request, author_id: int):
 
 
 @login_required(login_url="authors:login")
+@user_only
 def dashboard(request, author_id: int):
     return render(request, "dashboard.html", {"author_id": author_id})
