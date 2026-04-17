@@ -10,9 +10,9 @@
         {% if user.is_authenticated %}
             <ul class="nav-menu">
                 <li><a href="{% url 'authors:logout' %}" class="nav-link">Logout</a></li>
-                <li><a href="{% url 'tasks:tasks' user.id %}" class="nav-link {% if current == 'tasks' %}active{% endif %}">Tarefas</a></li>
-                <li><a href="{% url 'tasks:categories' user.id %}" class="nav-link">Categorias</a></li>
-                <li><a href="{% url 'tasks:dashboard' user.id %}" class="nav-link">Dashboard</a></li>
+                <li><a href="{% url 'tasks:tasks' %}" class="nav-link {% if current == 'tasks' %}active{% endif %}">Tarefas</a></li>
+                <li><a href="{% url 'tasks:categories' %}" class="nav-link">Categorias</a></li>
+                <li><a href="{% url 'tasks:dashboard' %}" class="nav-link">Dashboard</a></li>
             </ul>
         {% endif %}
     </div>

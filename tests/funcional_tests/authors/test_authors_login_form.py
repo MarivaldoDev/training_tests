@@ -37,6 +37,6 @@ class AuthorsLoginFormFunctionalTest(AuthorsBaseFuncionalTest):
         password.send_keys("1234")
         password.send_keys(Keys.ENTER)
 
-        response = resolve(reverse("tasks:tasks", kwargs={"author_id": 1}))
+        response = resolve(reverse("tasks:tasks"))
 
         self.assertEqual(response.url_name, "tasks")

@@ -36,7 +36,7 @@ class MyLoginView(LoginView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse("tasks:tasks", kwargs={"author_id": self.request.user.id})
+        return reverse("tasks:tasks")
 
 
 @login_required(login_url="authors:login")

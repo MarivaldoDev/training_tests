@@ -10,7 +10,7 @@
         {% if categories %}
             {% for category in categories %}
                 {% if category.incomplete_count > 0 %}
-                    <a href="{% url 'tasks:tasks_by_category' author_id category.id %}">
+                    <a href="{% url 'tasks:tasks_by_category' category.slug %}">
                         <div class="category-item">
                             <div>
                                 <strong>{{ category.name }}</strong>

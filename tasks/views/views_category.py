@@ -32,7 +32,7 @@ class CreateCategory(CreateView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse("tasks:categories", kwargs={"author_id": self.request.user.id})
+        return reverse("tasks:categories")
 
 
 @method_decorator(
@@ -42,6 +42,8 @@ class UpdateCategory(UpdateView):
     model = Category
     form_class = CategoryUpdateForm
     template_name = "update_category.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
 
     def form_invalid(self, form):
         list_errors(self.request, form)
@@ -53,7 +55,7 @@ class UpdateCategory(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("tasks:dashboard", kwargs={"author_id": self.request.user.id})
+        return reverse("tasks:dashboard")
 
 
 @method_decorator(
@@ -62,26 +64,26 @@ class UpdateCategory(UpdateView):
 class DeleteCategory(DeleteView):
     model = Category
     template_name = "categories.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
 
     def get_success_url(self):
-        return reverse("tasks:dashboard", kwargs={"author_id": self.request.user.id})
+        return reverse("tasks:dashboard")
 
 
 @login_required(login_url="authors:login")
 @user_only
-def category_list(request, author_id: int):
+def category_list(request):
     categories = Category.objects.annotate(
         incomplete_count=Count(
-            "tasks", filter=Q(tasks__author_id=author_id, tasks__completed=False)
+            "tasks", filter=Q(tasks__author=request.user.id, tasks__completed=False)
         )
     ).filter(incomplete_count__gt=0)
 
-    return render(
-        request, "categories.html", {"categories": categories, "author_id": author_id}
-    )
+    return render(request, "categories.html", {"categories": categories})
 
 
 @login_required(login_url="authors:login")
 @user_only
-def dashboard(request, author_id: int):
-    return render(request, "dashboard.html", {"author_id": author_id})
+def dashboard(request):
+    return render(request, "dashboard.html")

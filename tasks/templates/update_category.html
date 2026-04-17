@@ -5,12 +5,12 @@
   <div class="card">
     <h2>Atualizar Categoria</h2>
     {% include 'partials/messages.html' %}
-    <form method="post" enctype="multipart/form-data" action="{% url 'tasks:update_category' category.id %}">
+    <form method="post" enctype="multipart/form-data" action="{% url 'tasks:update_category' category.slug %}">
       {% csrf_token %}
       {{ form.as_p }}
       <div class="actions">
         <button type="submit">Salvar</button>
-        <a href="{% url 'tasks:dashboard' request.user.id %}">Voltar</a>
+        <a href="{% url 'tasks:dashboard' %}">Voltar</a>
       </div>
     </form>
   </div>

@@ -9,7 +9,7 @@
 
         {% if page_obj %}
             {% for task in page_obj %}
-                <a href="{% url 'tasks:task_detail' task.id %}">
+                <a href="{% url 'tasks:task_detail' task.slug %}">
                     <div class="task-card">
                         <div class="task-image-wrap">
                             {% if task.image %}
