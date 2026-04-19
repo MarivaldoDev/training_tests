@@ -51,7 +51,7 @@ class UpdateTask(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("tasks:task_detail")
+        return reverse("tasks:task_detail", kwargs={"slug": self.object.slug})
 
 
 @method_decorator(
@@ -87,7 +87,9 @@ def tasks_by_category(request, slug: str):
     tasks = Task.objects.filter(
         author=request.user, category=category, completed=False
     ).order_by("start_date")
+
     page_obj = pagination(request, tasks, per_page=5)
+
     return render(request, "tasks.html", {"page_obj": page_obj, "category": category})
 
 

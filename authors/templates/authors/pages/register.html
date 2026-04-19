@@ -12,7 +12,7 @@
 				{% include 'partials/messages.html' %}
 			{% endif %}
 
-			<form action="{% url 'authors:register'%}" method="post" class="register-form">
+			<form action="{% url 'authors:register'%}" method="post" class="register-form" enctype="multipart/form-data">
 				{% csrf_token %}
 				{% for field in form %}
 					{{ field.label }}

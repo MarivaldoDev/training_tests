@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+
+from authors.models import Author
 
 
 class AuthorsViewsTests(TestCase):
@@ -23,7 +24,7 @@ class AuthorsViewsTests(TestCase):
         self.assertIn("Este campo é obrigatório.", content)
 
     def test_authors_logout_view_logs_out_user_and_redirects_to_home(self):
-        user = User.objects.create(username="testuser", password="testpassword")
+        user = Author.objects.create(username="testuser", password="testpassword")
         self.client.force_login(user)
         response = self.client.get(reverse("authors:logout"))
         self.assertEqual(response.status_code, 302)

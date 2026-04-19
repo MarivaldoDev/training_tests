@@ -44,10 +44,11 @@ class TasksViewsTests(TasksTestBase):
         self.assertEqual(response.status_code, 404)
 
     def test_tasks_tasks_by_category_view_loads_tasks(self):
-        self.make_task(category_data={"name": "Category 1"})
+        self.make_task(category_data={"name": "Work"})
         response = self.client.get(
             reverse("tasks:tasks_by_category", kwargs={"slug": "work"})
         )
+        print(response.context)
         content = response.content.decode("utf-8")
         response_context_tasks = response.context["page_obj"]
 

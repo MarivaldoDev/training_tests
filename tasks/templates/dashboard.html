@@ -65,7 +65,7 @@
       <div class="card panel profile">
         <h2>Seu perfil</h2>
         <div class="profile-row">
-          <img src="{% static 'global/images/avatar.png' %}" alt="avatar" class="avatar">
+          <img src="{{ request.user.image_profile.url }}" alt="avatar" class="avatar">
           <div>
             <div class="name">{{ request.user.get_full_name|default:request.user.username }}</div>
             <div class="muted">{{ request.user.email }}</div>

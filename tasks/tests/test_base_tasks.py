@@ -1,5 +1,6 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
+
+from authors.models import Author
 
 from ..models import Category, Task
 
@@ -14,7 +15,7 @@ class TasksTestBase(TestCase):
         return Category.objects.create(name=name)
 
     def make_user(self, username="user", password="123456"):
-        return User.objects.create(username=username, password=password)
+        return Author.objects.create(username=username, password=password)
 
     def make_task(
         self,
@@ -34,7 +35,7 @@ class TasksTestBase(TestCase):
         return Task.objects.create(
             title=title,
             description=description,
-            category=self.make_category(**category_data),
+            category=Category.objects.get_or_create(**category_data)[0],
             author=author_data,
             start_date=start_date,
             completed=completed,

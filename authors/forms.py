@@ -1,17 +1,24 @@
 from django import forms
-from django.contrib.auth.models import User
+
+from .models import Author
 
 
 class RegisterForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ("username", "email", "password")
+        model = Author
+        fields = ("username", "email", "image_profile", "password")
         widgets = {
             "username": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Seu nome de usuário"}
             ),
             "email": forms.EmailInput(
                 attrs={"class": "form-control", "placeholder": "Digite seu e-mail"}
+            ),
+            "image_profile": forms.FileInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Selecione sua imagem de perfil",
+                }
             ),
             "password": forms.PasswordInput(
                 attrs={"class": "form-control", "placeholder": "Crie sua senha"}
@@ -30,7 +37,7 @@ class RegisterForm(forms.ModelForm):
         elif len(password) < 6:
             raise forms.ValidationError("A senha deve conter pelo menos 6 caracteres.")
 
-        elif User.objects.filter(email=email).exists():
+        elif Author.objects.filter(email=email).exists():
             raise forms.ValidationError("Esse e-mail já está em uso.")
 
         return cleaned_data
