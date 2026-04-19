@@ -1,9 +1,10 @@
-{% include 'partials/head.html' %}
-{% block content %}<title>Detalhes {{ task.title }}</title>{% endblock %}
+{% extends 'partials/base.html' %}
+{% block extra_head %}
+    <title>Detalhes - {{ task.title }}</title>
+{% endblock extra_head %}
 
-<body>
-    {% include 'partials/nav.html' %}
-    <br><br>
+{% block content %}
+    <br><br><br>
 
     <div class="container task-list">
         <h2 class="section-title">Detalhe da Tarefa</h2>
@@ -44,5 +45,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock content %}

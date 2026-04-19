@@ -1,10 +1,14 @@
-{% include 'partials/head.html' %}
-<body>
-  {% include 'partials/nav.html' %}
+{% extends 'partials/base.html' %}
+{% block extra_head %}
+    <title>Nova Categoria</title>
+{% endblock extra_head %}
+
+{% block content %}
   <br><br><br>
   <div class="card">
     <h2>Criar Categoria</h2>
     {% include 'partials/messages.html' %}
+    
     <form method="post" enctype="multipart/form-data" action="{% url 'tasks:create_category' %}">
       {% csrf_token %}
       {{ form.as_p }}
@@ -13,6 +17,6 @@
         <a href="{% url 'tasks:dashboard' %}">Voltar</a>
       </div>
     </form>
+    
   </div>
-</body>
-</html>
+{% endblock content %}

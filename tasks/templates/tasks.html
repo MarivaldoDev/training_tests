@@ -1,7 +1,9 @@
-{% include 'partials/head.html' %}
-{% block content %}<title>Dashboard</title>{% endblock %}
-<body>
-    {% include 'partials/nav.html' %}
+{% extends 'partials/base.html' %}
+{% block extra_head %}
+    <title>Tarefas</title>
+{% endblock extra_head %}
+
+{% block content %}
     <br><br>
 
     <div class="container task-list">
@@ -28,7 +30,6 @@
             <p>Nenhuma tarefa encontrada.</p>
             <p><a href="{% url 'tasks:create_task' %}">Criar nova tarefa</a></p>
         {% endif %}
-    </div>
-    {% include 'partials/paginator.html' %}
-</body>
-</html>
+{% endblock content %}
+
+{% include "partials/paginator.html" %}

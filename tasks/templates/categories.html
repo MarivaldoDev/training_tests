@@ -1,9 +1,10 @@
-{% include 'partials/head.html' %}
-{% block content %}<title>Categorias</title>{% endblock %}
+{% extends 'partials/base.html' %}
+{% block extra_head %}
+    <title>Categorias</title>
+{% endblock extra_head %}
 
-<body>
-    {% include 'partials/nav.html' %}
-    <br><br>
+{% block content %}
+    <br><br><br>
 
     <div class="container category-list">
         <h2 class="section-title">Categorias</h2>
@@ -25,4 +26,4 @@
             <p>Nenhuma categoria encontrada.</p>
         {% endif %}
     </div>
-</body>
+{% endblock content %}

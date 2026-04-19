@@ -1,9 +1,9 @@
-{% include 'partials/head.html' %}
-{% block content %}<title>Registrar — Task Manager</title>{% endblock %}
+{% extends 'partials/base.html' %}
+{% block extra_head %}
+    <title>Registrar — Task Manager</title>
+{% endblock extra_head %}
 
-<body class="register-page">
-	{% include 'partials/nav.html' %}
-
+{% block content %}
 	<main class="register-main">
 		<section class="card register-card">
 			<h1 class="card-title">Crie sua conta</h1>
@@ -28,5 +28,5 @@
 	<footer class="site-footer">
 		<div class="container">&copy; 2026 Task Manager</div>
 	</footer>
-</body>
-</html>
+	
+{% endblock content %}

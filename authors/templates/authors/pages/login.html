@@ -1,8 +1,9 @@
-{% include 'partials/head.html' %}
-{% block content %}<title>Login — Task Manager</title>{% endblock %}
+{% extends 'partials/base.html' %}
+{% block extra_head %}
+    <title>Login — Task Manager</title>
+{% endblock extra_head %}
 
-<body class="login-page">
-  {% include 'partials/nav.html' %}
+{% block content %}
 
   <main class="login-main">
     <section class="card login-card">
@@ -29,5 +30,5 @@
   <footer class="site-footer">
     <div class="container">&copy; 2026 Task Manager</div>
   </footer>
-</body>
-</html>
+  
+{% endblock content %}
