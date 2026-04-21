@@ -20,7 +20,11 @@
                     <h2 class="task-title">{{ task.title }} {% if task.completed %}<span class="task-completed">✓</span>{% endif %}</h2>
 
                     <div class="detail-meta">
-                        <div class="meta-item"><strong>Categoria</strong>: <a href="{% url 'tasks:tasks_by_category' task.category.slug %}">{{ task.category.name }}</a></div>
+                        {% if task.category %}
+                            <div class="meta-item"><strong>Categoria</strong>: <a href="{% url 'tasks:tasks_by_category' task.category.slug %}">{{ task.category.name }}</a></div>
+                        {% else %}
+                              <div class="meta-item"><strong>Categoria</strong>: Sem categoria</div>
+                        {% endif %}
                         <div class="meta-item"><strong>Início</strong>: {{ task.start_date }}</div>
                         {% if task.finish_date %}<div class="meta-item"><strong>Conclusão</strong>: {{ task.finish_date }}</div>{% endif %}
                     </div>

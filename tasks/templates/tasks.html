@@ -6,6 +6,32 @@
 {% block content %}
     <br><br>
 
+    <form method="get" class="task-filter-form">
+        <div class="row">
+            <div class="col">
+                {{ filter_form.category }}
+            </div>
+            <div class="col">
+                {{ filter_form.title }}
+            </div>
+            <div class="col">
+                {{ filter_form.start_date_from }}
+            </div>
+            <div class="col">
+                {{ filter_form.start_date_to }}
+            </div>
+            <div class="col">
+                {{ filter_form.completed }}
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a href="{% url 'tasks:tasks' %}" class="btn btn-secondary">Limpar</a>
+            </div>
+        </div>
+    </form>
+
+    <br><br>
+
     <div class="container task-list">
         <h2 class="section-title">{% if category %}Tarefas em "{{ category.name }}"{% else %}Todas as Tarefas{% endif %}</h2>
 
@@ -30,6 +56,6 @@
             <p>Nenhuma tarefa encontrada.</p>
             <p><a href="{% url 'tasks:create_task' %}">Criar nova tarefa</a></p>
         {% endif %}
-{% endblock content %}
 
-{% include "partials/paginator.html" %}
+        {% include "partials/paginator.html" %}
+{% endblock content %}

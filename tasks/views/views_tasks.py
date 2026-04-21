@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from utils.functions import list_errors, pagination
 
 from ..decorators.decorator import user_only
-from ..forms import TaskForm, TaskUpdateForm
+from ..forms import TaskFilterForm, TaskForm, TaskUpdateForm
 from ..models import Category, Task
 
 
@@ -93,10 +93,8 @@ def toggle_task_completed(request, slug: str):
 @login_required(login_url="authors:login")
 @user_only
 def tasks_by_category(request, slug: str):
-    category = get_object_or_404(Category, slug=slug)
-    tasks = Task.objects.filter(
-        author=request.user, category=category, completed=False
-    ).order_by("start_date")
+    category = get_object_or_404(Category, author=request.user, slug=slug)
+    tasks = Task.objects.filter(author=request.user, category=category)
 
     page_obj = pagination(request, tasks, per_page=5)
 
@@ -106,11 +104,32 @@ def tasks_by_category(request, slug: str):
 @login_required(login_url="authors:login")
 @user_only
 def task_list(request):
-    tasks = Task.objects.filter(author=request.user, completed=False).order_by(
-        "start_date"
-    )
+    tasks = Task.objects.filter(author=request.user).order_by("start_date")
+
+    filter_form = TaskFilterForm(request.GET or None, user=request.user)
+    if filter_form.is_valid():
+        cd = filter_form.cleaned_data
+        if cd.get("category"):
+            tasks = tasks.filter(category=cd["category"])
+        if cd.get("title"):
+            tasks = tasks.filter(title__icontains=cd["title"])
+        if cd.get("start_date_from"):
+            tasks = tasks.filter(start_date__gte=cd["start_date_from"])
+        if cd.get("start_date_to"):
+            tasks = tasks.filter(start_date__lte=cd["start_date_to"])
+        if cd.get("completed") == "yes":
+            tasks = tasks.filter(completed=True)
+        elif cd.get("completed") == "no":
+            tasks = tasks.filter(completed=False)
+
     page_obj = pagination(request, tasks, per_page=5)
-    return render(request, "tasks.html", {"page_obj": page_obj})
+    categories = Category.objects.filter(author=request.user)
+
+    return render(
+        request,
+        "tasks.html",
+        {"page_obj": page_obj, "filter_form": filter_form, "categories": categories},
+    )
 
 
 @login_required(login_url="authors:login")

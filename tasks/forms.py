@@ -139,3 +139,43 @@ class CategoryUpdateForm(CategoryForm):
         if commit:
             category.save()
         return category
+
+
+class TaskFilterForm(forms.Form):
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.none(),
+        required=False,
+        label="Categoria",
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    title = forms.CharField(
+        required=False,
+        label="Título",
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Título"}
+        ),
+    )
+    start_date_from = forms.DateField(
+        required=False,
+        label="Data início (de)",
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+    )
+    start_date_to = forms.DateField(
+        required=False,
+        label="Data início (até)",
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+    )
+    completed = forms.ChoiceField(
+        required=False,
+        label="Concluída",
+        choices=(("", "Todos"), ("yes", "Concluídas"), ("no", "Não concluídas")),
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user and getattr(user, "is_authenticated", False):
+            self.fields["category"].queryset = Category.objects.filter(author=user)
+        else:
+            self.fields["category"].queryset = Category.objects.none()
