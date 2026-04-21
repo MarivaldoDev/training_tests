@@ -7,10 +7,13 @@ from authors.models import Author
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from="name", unique=True, always_update=True)
+    slug = AutoSlugField(populate_from="name", always_update=True)
     author = models.ForeignKey(
         Author, on_delete=models.CASCADE, related_name="categories"
     )
+
+    class Meta:
+        unique_together = ("author", "slug")
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -23,7 +26,7 @@ class Category(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=150)
-    slug = AutoSlugField(populate_from="title", unique=True, always_update=True)
+    slug = AutoSlugField(populate_from="title", always_update=True)
     description = models.TextField(max_length=300, blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="tasks", blank=True, null=True
@@ -33,6 +36,9 @@ class Task(models.Model):
     finish_date = models.DateField(blank=True, null=True)
     image = models.ImageField(upload_to="task_images/%Y/%m/", blank=True, null=True)
     completed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ("author", "slug")
 
     def save(self, *args, **kwargs):
         if not self.slug:

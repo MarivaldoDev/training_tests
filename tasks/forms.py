@@ -43,26 +43,36 @@ class TaskForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop("user", None)
+        self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
-        if user is None or not getattr(user, "is_authenticated", False):
+        if self.user is None or not getattr(self.user, "is_authenticated", False):
             self.fields["category"].queryset = Category.objects.none()
         else:
-            self.fields["category"].queryset = Category.objects.filter(author=user)
+            self.fields["category"].queryset = Category.objects.filter(author=self.user)
 
     def clean(self):
         cleaned_data = super().clean()
         title = cleaned_data.get("title")
-        start_date = cleaned_data.get("start_date")
 
-        if not title and not start_date:
-            raise forms.ValidationError(
-                "Preencha pelo menos o título ou a data de início."
-            )
-        elif Task.objects.filter(title=title).exclude(pk=self.instance.pk).exists():
-            raise forms.ValidationError("Já existe uma tarefa com esse título.")
+        author = self.user or getattr(self.instance, "author", None)
+
+        if author and title:
+            if (
+                Task.objects.filter(title=title, author=author)
+                .exclude(pk=self.instance.pk)
+                .exists()
+            ):
+                raise forms.ValidationError("Essa tarefa já existe.")
 
         return cleaned_data
+
+    def save(self, commit=True):
+        task = super().save(commit=False)
+        if getattr(self, "user", None) and not getattr(task, "author", None):
+            task.author = self.user
+        if commit:
+            task.save()
+        return task
 
 
 class TaskUpdateForm(TaskForm):
