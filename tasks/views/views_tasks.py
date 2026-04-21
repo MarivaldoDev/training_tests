@@ -19,6 +19,11 @@ class CreateTask(CreateView):
     form_class = TaskForm
     template_name = "create_task.html"
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -40,6 +45,11 @@ class UpdateTask(UpdateView):
     template_name = "update_task.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
     def form_invalid(self, form):
         list_errors(self.request, form)

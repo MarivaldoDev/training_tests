@@ -18,8 +18,8 @@ class TasksViewsTests(TasksTestBase):
         self.assertIs(view.func, views_category.category_list)
 
     def test_tasks_category_view_loads_categories_where_tasks_exist(self):
-        self.make_category(name="Category 1")
-        self.make_category(name="Category 2")
+        self.make_category(name="Category 1", author="Tester")
+        self.make_category(name="Category 2", author="Tester")
         self.make_task(category_data={"name": "Category 1"})
 
         response = self.client.get(reverse("tasks:categories"))
@@ -48,7 +48,7 @@ class TasksViewsTests(TasksTestBase):
         response = self.client.get(
             reverse("tasks:tasks_by_category", kwargs={"slug": "work"})
         )
-        print(response.context)
+
         content = response.content.decode("utf-8")
         response_context_tasks = response.context["page_obj"]
 

@@ -27,6 +27,15 @@ class CreateCategory(CreateView):
     form_class = CategoryForm
     template_name = "create_category.html"
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
     def form_invalid(self, form):
         list_errors(self.request, form)
         return super().form_invalid(form)
@@ -44,6 +53,11 @@ class UpdateCategory(UpdateView):
     template_name = "update_category.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
     def form_invalid(self, form):
         list_errors(self.request, form)

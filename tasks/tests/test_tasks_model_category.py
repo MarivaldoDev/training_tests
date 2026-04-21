@@ -5,7 +5,7 @@ from .test_base_tasks import TasksTestBase
 
 class TasksCategoryModelTests(TasksTestBase):
     def setUp(self):
-        self.category = self.make_category(name="Work")
+        self.category = self.make_category(name="Work", author="Tester")
         return super().setUp()
 
     def test_tasks_model_category_str_method(self):

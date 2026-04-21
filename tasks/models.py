@@ -8,6 +8,9 @@ from authors.models import Author
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from="name", unique=True, always_update=True)
+    author = models.ForeignKey(
+        Author, on_delete=models.CASCADE, related_name="categories"
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
