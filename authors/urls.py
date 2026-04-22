@@ -7,6 +7,8 @@ app_name = "authors"
 
 urlpatterns = [
     path("register/create/", views.RegisterView.as_view(), name="register"),
+    path("register/update/", views.RegisterUpdateView.as_view(), name="update"),
+    path("register/delete/", views.RegisterDeleteView.as_view(), name="delete"),
     path("login/", views.MyLoginView.as_view(), name="login"),
     path("logout/", views.logout_view, name="logout"),
     path(

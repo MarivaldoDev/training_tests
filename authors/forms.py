@@ -37,7 +37,7 @@ class RegisterForm(forms.ModelForm):
         elif len(password) < 6:
             raise forms.ValidationError("A senha deve conter pelo menos 6 caracteres.")
 
-        elif Author.objects.filter(email=email).exists():
+        elif Author.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("Esse e-mail já está em uso.")
 
         return cleaned_data
@@ -48,4 +48,30 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
 
+        return user
+
+
+class UpdateRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = ("username", "email", "image_profile")
+        widgets = {
+            "username": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Seu nome de usuário"}
+            ),
+            "email": forms.EmailInput(
+                attrs={"class": "form-control", "placeholder": "Digite seu e-mail"}
+            ),
+            "image_profile": forms.FileInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Selecione sua imagem de perfil",
+                }
+            ),
+        }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
         return user

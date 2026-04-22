@@ -65,6 +65,10 @@
         <div class="profile-row">
           {% if request.user.image_profile %}
             <img src="{{ request.user.image_profile.url }}" alt="avatar" class="avatar">
+            <form action="{% url 'authors:delete' %}" method="post" class="register-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-secondary">Excluir perfil</button>
+            </form>
           {% else %}
             <img src="..." alt="avatar" class="avatar">
           {% endif %}

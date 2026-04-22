@@ -41,7 +41,7 @@ class CreateCategory(CreateView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse("tasks:categories")
+        return reverse("tasks:dashboard")
 
 
 @method_decorator(
