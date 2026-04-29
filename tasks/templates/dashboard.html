@@ -19,15 +19,15 @@
 
     <section class="stats-grid" aria-label="Estatísticas rápidas">
       <div class="stat-card">
-        <div class="stat-value">12</div>
+        <div class="stat-value">{{ open_tasks }}</div>
         <div class="stat-label">Tarefas abertas</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">5</div>
+        <div class="stat-value">{{ categories_with_open_count }}</div>
         <div class="stat-label">Categorias</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">3</div>
+        <div class="stat-value">{{ completed_tasks }}</div>
         <div class="stat-label">Concluídas</div>
       </div>
     </section>

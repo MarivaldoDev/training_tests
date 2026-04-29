@@ -16,11 +16,6 @@ from ..models import Category
 logger = logging.getLogger(__name__)
 
 
-def home(request):
-    logger.info("Acessando a página inicial.")
-    return render(request, "home.html")
-
-
 @method_decorator(login_required(login_url="authors:login"), name="dispatch")
 class CreateCategory(CreateView):
     model = Category
@@ -95,9 +90,3 @@ def category_list(request):
     ).filter(incomplete_count__gt=0)
 
     return render(request, "categories.html", {"categories": categories})
-
-
-@login_required(login_url="authors:login")
-@user_only
-def dashboard(request):
-    return render(request, "dashboard.html")

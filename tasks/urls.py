@@ -1,12 +1,12 @@
 from django.urls import path
 
-from .views import views_category, views_tasks
+from .views import generic_views, views_category, views_tasks
 
 app_name = "tasks"
 
 urlpatterns = [
-    path("", views_category.home, name="home"),
-    path("dashboard/", views_category.dashboard, name="dashboard"),
+    path("", generic_views.home, name="home"),
+    path("dashboard/", generic_views.dashboard, name="dashboard"),
     path("tasks/", views_tasks.task_list, name="tasks"),
     path("tasks/create/", views_tasks.CreateTask.as_view(), name="create_task"),
     path(
