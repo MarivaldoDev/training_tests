@@ -6,10 +6,12 @@
         root.dataset.theme = theme;
         localStorage.setItem("theme", theme);
         const isDark = theme === "dark";
+        const nextLabel = isDark ? "Claro" : "Escuro";
+        const nextIcon = isDark ? "☀️" : "🌙";
         if (toggle) {
             toggle.setAttribute("aria-pressed", String(isDark));
-            toggle.querySelector(".theme-toggle__icon").textContent = isDark ? "🌙" : "☀️";
-            toggle.querySelector(".theme-toggle__label").textContent = isDark ? "Escuro" : "Claro";
+            toggle.querySelector(".theme-toggle__icon").textContent = nextIcon;
+            toggle.querySelector(".theme-toggle__label").textContent = nextLabel;
         }
     };
 
