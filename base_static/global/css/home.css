@@ -91,9 +91,9 @@ main.container {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
-    backdrop-filter: blur(12px);
+    background: var(--surface);
     border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
 }
 
 .nav-content {
