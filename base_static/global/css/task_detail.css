@@ -54,7 +54,8 @@
     line-height: 1.6;
 }
 
-.detail-actions {
+.detail-actions,
+.task-actions {
     margin-top: 1.2rem;
     display: flex;
     flex-wrap: wrap;
