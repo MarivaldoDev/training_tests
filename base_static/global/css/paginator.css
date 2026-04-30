@@ -1,47 +1,49 @@
-/* Paginator styles: isolated file for pagination component */
 .pagination {
     display: flex;
     justify-content: center;
-    margin: 1rem 0;
+    margin: 1.5rem 0 2rem;
 }
 
 .pagination .step-links {
     display: inline-flex;
-    gap: 0.35rem;
+    gap: 0.4rem;
     align-items: center;
     font-family: inherit;
 }
 
 .pagination a {
-    display: inline-block;
-    padding: 0.4rem 0.6rem;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    color: #0d6efd;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text);
     text-decoration: none;
-    background: #fff;
-    transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+    background: var(--surface);
+    transition: all 120ms ease;
 }
 
 .pagination a:hover {
-    background: #f8f9fa;
-    text-decoration: none;
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .pagination .current {
-    padding: 0.4rem 0.6rem;
-    color: #495057;
+    padding: 0.4rem 0.75rem;
+    color: var(--text-muted);
 }
 
 .pagination a.disabled,
 .pagination a[aria-disabled="true"] {
     pointer-events: none;
-    color: #6c757d;
-    border-color: #e9ecef;
-    background: #fff;
+    color: var(--text-muted);
+    border-color: var(--border);
+    background: var(--surface-muted);
 }
 
 @media (max-width: 480px) {
-    .pagination .step-links { gap: 0.25rem; }
-    .pagination a, .pagination .current { padding: 0.3rem 0.5rem; font-size: 0.95rem; }
+    .pagination .step-links {
+        gap: 0.25rem;
+    }
 }
