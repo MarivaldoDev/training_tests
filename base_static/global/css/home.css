@@ -301,6 +301,7 @@ form p {
 
 .hero {
     padding: clamp(3rem, 6vw, 5rem) 0;
+    background-color: var(--primary);
     background: radial-gradient(circle at top left, color-mix(in srgb, var(--primary) 25%, transparent), transparent 60%),
         linear-gradient(120deg, color-mix(in srgb, var(--primary) 70%, var(--secondary)), color-mix(in srgb, var(--secondary) 70%, var(--accent)));
     color: #fff;
