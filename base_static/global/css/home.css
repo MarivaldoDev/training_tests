@@ -31,14 +31,14 @@ html {
 
 html[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #070b16;
-    --bg-2: #0f172a;
-    --surface: rgba(15, 23, 42, 0.86);
-    --surface-solid: #111827;
-    --surface-muted: #1e293b;
-    --border: rgba(148, 163, 184, 0.16);
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
+    --bg: #07090f;
+    --bg-2: #0b1220;
+    --surface: rgba(6, 10, 18, 0.82);
+    --surface-solid: #071021;
+    --surface-muted: #0f1724;
+    --border: rgba(255, 255, 255, 0.04);
+    --text: #ffffff;
+    --text-muted: rgba(255,255,255,0.85);
     --primary: #60a5fa;
     --primary-strong: #93c5fd;
     --secondary: #2dd4bf;
@@ -47,7 +47,62 @@ html[data-theme="dark"] {
     --success: #4ade80;
     --shadow-sm: 0 16px 40px rgba(0, 0, 0, 0.28);
     --shadow-md: 0 32px 70px rgba(0, 0, 0, 0.42);
-    --ring: rgba(96, 165, 250, 0.3);
+    --ring: rgb(174, 210, 255);
+}
+
+/* Dark-mode overrides for Bootstrap utility classes and specific elements that remain too light */
+html[data-theme="dark"] .bg-light,
+html[data-theme="dark"] .bg-white {
+    background: var(--surface) !important;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .task-detail-card,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .auth-card,
+html[data-theme="dark"] .empty-state,
+html[data-theme="dark"] .hero-panel__card {
+    background: color-mix(in srgb, var(--surface-solid) 85%, transparent) !important;
+    border-color: rgba(255,255,255,0.03) !important;
+    box-shadow: var(--shadow-sm) !important;
+    color: var(--text) !important;
+}
+
+/* Force muted text to be readable in dark mode */
+html[data-theme="dark"] .text-muted,
+html[data-theme="dark"] .small,
+html[data-theme="dark"] .card p,
+html[data-theme="dark"] .card .card-text {
+    color: var(--text-muted) !important;
+}
+
+/* Ensure links and headings inside cards are light */
+html[data-theme="dark"] .card a,
+html[data-theme="dark"] .card h1,
+html[data-theme="dark"] .card h2,
+html[data-theme="dark"] .card h3,
+html[data-theme="dark"] .card h4,
+html[data-theme="dark"] .card h5,
+html[data-theme="dark"] .card h6 {
+    color: var(--text) !important;
+}
+
+/* Buttons that mix with surface-solid can look washed out; ensure sufficient contrast */
+html[data-theme="dark"] .btn-secondary,
+html[data-theme="dark"] .btn-outline-secondary,
+html[data-theme="dark"] .btn-light,
+html[data-theme="dark"] .theme-toggle {
+    background: color-mix(in srgb, var(--surface-solid) 90%, transparent) !important;
+    color: var(--text) !important;
+    border-color: rgba(255,255,255,0.04) !important;
+}
+
+/* Utility: make sure badges and small labels are visible */
+html[data-theme="dark"] .badge,
+html[data-theme="dark"] .badge.bg-light {
+    background: color-mix(in srgb, var(--surface-solid) 85%, transparent) !important;
+    color: var(--text) !important;
+    border-color: rgba(255,255,255,0.03) !important;
 }
 
 body {

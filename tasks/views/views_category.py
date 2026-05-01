@@ -83,10 +83,19 @@ class DeleteCategory(DeleteView):
 @login_required(login_url="authors:login")
 @user_only
 def category_list(request):
-    categories = Category.objects.annotate(
+    all_categories = Category.objects.filter(author=request.user)
+
+    categories_with_tasks_incomplete = Category.objects.annotate(
         incomplete_count=Count(
             "tasks", filter=Q(tasks__author=request.user.id, tasks__completed=False)
         )
     ).filter(incomplete_count__gt=0)
 
-    return render(request, "categories.html", {"categories": categories})
+    return render(
+        request,
+        "categories.html",
+        {
+            "all_categories": all_categories,
+            "categories_with_tasks_incomplete": categories_with_tasks_incomplete,
+        },
+    )

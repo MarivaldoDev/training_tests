@@ -1,13 +1,13 @@
 from django.urls import resolve, reverse
 
-from ..views import views_category, views_tasks
+from ..views import generic_views, views_category, views_tasks
 from .test_base_tasks import TasksTestBase
 
 
 class TasksViewsTests(TasksTestBase):
     def test_tasks_home_view_function_is_correct(self):
         view = resolve(reverse("tasks:home"))
-        self.assertIs(view.func, views_category.home)
+        self.assertIs(view.func, generic_views.home)
 
     def test_tasks_tasks_view_function_is_correct(self):
         view = resolve(reverse("tasks:tasks"))
@@ -65,7 +65,7 @@ class TasksViewsTests(TasksTestBase):
 
     def test_tasks_tasks_template_shows_no_tasks_message_when_no_tasks(self):
         response = self.client.get(reverse("tasks:tasks"))
-        self.assertIn(b"<p>Nenhuma tarefa encontrada.</p>", response.content)
+        self.assertIn(b"Nenhuma tarefa encontrada.", response.content)
 
     def test_tasks_tasks_template_loads_tasks(self):
         self.make_task()

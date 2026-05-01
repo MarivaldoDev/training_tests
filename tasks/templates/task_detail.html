@@ -18,9 +18,9 @@
         <a href="{% url 'tasks:update_task' task.slug %}" class="btn btn-outline-primary shadow-sm" title="Editar Tarefa">
             <i class="bi bi-pencil-square me-1"></i> <span class="d-none d-sm-inline">Editar</span>
         </a>
-        <form method="post" action="{% url 'tasks:delete_task' task.slug %}" class="m-0">
+        <form method="post" action="{% url 'tasks:delete_task' task.slug %}" class="m-0" data-confirm-message='Tem certeza que deseja excluir a tarefa "{{ task.title }}"? Essa ação não pode ser desfeita.'>
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger shadow-sm" title="Excluir Tarefa" onclick="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+            <button type="submit" class="btn btn-outline-danger shadow-sm" title="Excluir Tarefa">
                 <i class="bi bi-trash3 me-1"></i> <span class="d-none d-sm-inline">Excluir</span>
             </button>
         </form>

@@ -18,6 +18,24 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+
+  <div class="confirm-modal" id="confirm-modal" aria-hidden="true" hidden>
+    <div class="confirm-modal__backdrop" data-confirm-close></div>
+    <div class="confirm-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title" aria-describedby="confirm-modal-message" tabindex="-1">
+      <div class="confirm-modal__icon-wrap" aria-hidden="true">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+      </div>
+      <div class="confirm-modal__content">
+        <h2 class="confirm-modal__title" id="confirm-modal-title">Confirmar exclusão</h2>
+        <p class="confirm-modal__message" id="confirm-modal-message"></p>
+      </div>
+      <div class="confirm-modal__actions">
+        <button type="button" class="confirm-modal__button confirm-modal__button--cancel" data-confirm-close>Cancelar</button>
+        <button type="button" class="confirm-modal__button confirm-modal__button--danger" data-confirm-accept>Excluir</button>
+      </div>
+    </div>
+  </div>
+
   {% block scripts %}{% endblock %}
 
 </body>

@@ -29,6 +29,8 @@ def dashboard(request):
         .count()
     )
 
+    recents_tasks = Task.objects.filter(author=request.user).order_by("-start_date")[:5]
+
     return render(
         request,
         "dashboard.html",
@@ -36,5 +38,6 @@ def dashboard(request):
             "open_tasks": tasks["open_count"],
             "completed_tasks": tasks["completed_count"],
             "categories_with_open_count": categories_with_open_count,
+            "recents_tasks": recents_tasks,
         },
     )

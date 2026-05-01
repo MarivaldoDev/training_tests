@@ -6,9 +6,9 @@ from .base import TaskBaseFunctionalTest
 class TaskHomePageFunctionalTest(TaskBaseFunctionalTest):
     def test_task_home_page_return_welcome_message(self):
         self.browser.get(self.live_server_url)
-        body = self.browser.find_element(By.CLASS_NAME, "hero-title")
+        body = self.browser.find_element(By.TAG_NAME, "body")
 
-        self.assertIn("Bem-vindo ao Task Manager", body.text)
+        self.assertIn("Gerencie suas tarefas de forma simples\ne atual.", body.text)
 
     def test_nav_menu_not_shows_if_user_is_not_authenticated(self):
         self.browser.get(self.live_server_url)
