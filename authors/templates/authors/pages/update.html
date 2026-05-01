@@ -3,29 +3,38 @@
     <title>Atualizar Perfil — Task Manager</title>
 {% endblock extra_head %}
 
+{% block body_class %}auth-page{% endblock %}
+
 {% block content %}
-	<main class="register-main">
-		<section class="card register-card">
-			<h1 class="card-title">Atualizar Perfil</h1>
+	<section class="auth-layout">
+		<div class="auth-intro">
+			<span class="eyebrow">Perfil</span>
+			<h1>Atualize seu perfil com uma tela mais refinada.</h1>
+			<p>O foco permanece no formulário, com mais respiro e melhor leitura.</p>
+		</div>
+
+		<section class="card auth-card register-card">
+			<h2 class="card-title">Atualizar Perfil</h2>
 
 			{% if messages %}
 				{% include 'partials/messages.html' %}
 			{% endif %}
 
-			<form action="{% url 'authors:update' %}" method="post" class="register-form" enctype="multipart/form-data">
+			<form action="{% url 'authors:update' %}" method="post" class="stack-form" enctype="multipart/form-data">
 				{% csrf_token %}
-				{% for field in form %}
-					{{ field.label }}
-					{{ field }}
+				{% for field in form.visible_fields %}
+					<div class="form-field">
+						<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+						{{ field }}
+						{% if field.help_text %}<small class="field-help">{{ field.help_text }}</small>{% endif %}
+						{% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+					</div>
 				{% endfor %}
-				<button type="submit" class="btn btn-primary">Atualizar perfil</button>
+				{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+				<button type="submit" class="btn btn-primary btn-block">Atualizar perfil</button>
 			</form>
 
 		</section>
-	</main>
-
-	<footer class="site-footer">
-		<div class="container">&copy; 2026 Task Manager</div>
-	</footer>
+	</section>
 	
 {% endblock content %}

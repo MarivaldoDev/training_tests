@@ -3,30 +3,39 @@
     <title>Registrar — Task Manager</title>
 {% endblock extra_head %}
 
+{% block body_class %}auth-page{% endblock %}
+
 {% block content %}
-	<main class="register-main">
-		<section class="card register-card">
-			<h1 class="card-title">Crie sua conta</h1>
+	<section class="auth-layout">
+		<div class="auth-intro">
+			<span class="eyebrow">Cadastro</span>
+			<h1>Crie sua conta e organize tudo em um só lugar.</h1>
+			<p>O novo visual destaca o formulário e deixa a ação principal mais evidente.</p>
+		</div>
+
+		<section class="card auth-card register-card">
+			<h2 class="card-title">Crie sua conta</h2>
 
 			{% if messages %}
 				{% include 'partials/messages.html' %}
 			{% endif %}
 
-			<form action="{% url 'authors:register'%}" method="post" class="register-form" enctype="multipart/form-data">
+			<form action="{% url 'authors:register'%}" method="post" class="stack-form" enctype="multipart/form-data">
 				{% csrf_token %}
-				{% for field in form %}
-					{{ field.label }}
-					{{ field }}
+				{% for field in form.visible_fields %}
+					<div class="form-field">
+						<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+						{{ field }}
+						{% if field.help_text %}<small class="field-help">{{ field.help_text }}</small>{% endif %}
+						{% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+					</div>
 				{% endfor %}
-				<button type="submit" class="btn btn-primary">Criar conta</button>
+				{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+				<button type="submit" class="btn btn-primary btn-block">Criar conta</button>
 			</form>
 
 			<p class="small muted">Já tem conta? <a href="{% url 'authors:login' %}" class="link">Entrar</a></p>
 		</section>
-	</main>
-
-	<footer class="site-footer">
-		<div class="container">&copy; 2026 Task Manager</div>
-	</footer>
+	</section>
 	
 {% endblock content %}

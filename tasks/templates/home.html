@@ -1,57 +1,181 @@
-{% include 'partials/head.html' %}
-<title>Task Manager</title>
+{% extends 'partials/base.html' %}
 
-<body class="home-page">
-    {% include 'partials/nav.html' %}
+{% block extra_head %}
+    <title>Task Manager - Simples e Moderno</title>
+{% endblock extra_head %}
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2 class="hero-title">Bem-vindo ao Task Manager</h2>
-            <p class="hero-subtitle">Organize suas tarefas de forma simples e eficiente</p>
+{% block content %}
+<div class="row align-items-center py-5 mb-5 overflow-hidden">
+    <div class="col-lg-6 col-12 mb-5 mb-lg-0 pe-lg-5 position-relative z-1">
+        <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-semibold">
+            <i class="bi bi-stars me-1"></i> Nova Interface 2.0
+        </div>
+        <h1 class="display-4 fw-bolder text-dark mb-4 lh-tight tracking-tight">
+            Gerencie suas tarefas de forma <span class="text-primary position-relative d-inline-block">simples<svg class="position-absolute w-100 h-auto bottom-0 start-0 translate-middle-y z-n1" style="height: 12px; margin-bottom: -4px;" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="var(--bs-primary)" stroke-width="4" fill="none" opacity="0.3"></path></svg></span> e atual.
+        </h1>
+        <p class="lead text-muted mb-5 pe-lg-4">
+            Um painel focado no que importa: sua produtividade. Fluxo direto, sem distrações, adaptado para qualquer tipo de tela com iconografia moderna.
+        </p>
+        
+        <div class="d-flex flex-column flex-sm-row gap-3 mb-5">
             {% if user.is_authenticated %}
-                <a href="{% url 'tasks:tasks' %}">
-                    <button class="btn btn-primary">Comece Agora</button>
+                <a href="{% url 'tasks:tasks' %}" class="btn btn-primary btn-lg px-4 py-3 shadow-sm d-flex align-items-center justify-content-center hover-scale transition-all">
+                    <i class="bi bi-list-check me-2 fs-5"></i> Explorar Tarefas
+                </a>
+                <a href="{% url 'tasks:dashboard' %}" class="btn btn-outline-secondary btn-lg px-4 py-3 d-flex align-items-center justify-content-center hover-scale transition-all bg-white">
+                    <i class="bi bi-speedometer2 me-2 fs-5"></i> Meu Dashboard
                 </a>
             {% else %}
-                <a href="{% url 'authors:login' %}">
-                    <button class="btn btn-primary">Comece Agora</button>
+                <a href="{% url 'authors:login' %}" class="btn btn-primary btn-lg px-4 py-3 shadow-sm d-flex align-items-center justify-content-center hover-scale transition-all">
+                    <i class="bi bi-box-arrow-in-right me-2 fs-5"></i> Começar Agora
+                </a>
+                <a href="{% url 'authors:register' %}" class="btn btn-outline-secondary btn-lg px-4 py-3 d-flex align-items-center justify-content-center hover-scale transition-all bg-white">
+                    <i class="bi bi-person-plus me-2 fs-5"></i> Criar Conta Grátis
                 </a>
             {% endif %}
         </div>
-    </section>
 
-    <section class="features">
-        <div class="container">
-            <h2 class="section-title">Por que usar nosso aplicativo?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">✓</div>
-                    <h3>Fácil de Usar</h3>
-                    <p>Interface intuitiva e simples para gerenciar suas tarefas</p>
+        <div class="row g-4 mt-2 border-top pt-4 text-muted">
+            <div class="col-sm-4 d-flex">
+                <i class="bi bi-lightning-charge-fill text-warning fs-3 me-3"></i>
+                <div>
+                    <strong class="d-block text-dark">Fluxo Direto</strong>
+                    <small>Crie e acompanhe</small>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📂</div>
-                    <h3>Organizado</h3>
-                    <p>Categorize suas tarefas e mantenha tudo organizado</p>
+            </div>
+            <div class="col-sm-4 d-flex">
+                <i class="bi bi-phone-fill text-info fs-3 me-3"></i>
+                <div>
+                    <strong class="d-block text-dark">Responsivo</strong>
+                    <small>Menu hamburguer</small>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Rápido</h3>
-                    <p>Acesse suas tarefas em qualquer lugar, a qualquer momento</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Produtividade</h3>
-                    <p>Acompanhe seu progresso e aumente sua produtividade</p>
+            </div>
+            <div class="col-sm-4 d-flex">
+                <i class="bi bi-moon-stars-fill text-indigo fs-3 me-3" style="color:var(--bs-indigo)"></i>
+                <div>
+                    <strong class="d-block text-dark">Dinâmico</strong>
+                    <small>Luz e escuro ativos</small>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Task Manager. Todos os direitos reservados.</p>
+    <div class="col-lg-6 col-12 position-relative">
+        <div class="position-absolute top-50 start-50 translate-middle bg-primary bg-opacity-10 rounded-circle z-n1" style="width: 120%; height: 120%; filter: blur(60px);"></div>
+        
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden transform-rotate-hover transition-all bg-white bg-opacity-75 backdrop-blur">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="rounded-circle bg-danger" style="width: 12px; height: 12px;"></div>
+                    <div class="rounded-circle bg-warning" style="width: 12px; height: 12px;"></div>
+                    <div class="rounded-circle bg-success" style="width: 12px; height: 12px;"></div>
+                </div>
+                <h4 class="fw-bold mb-0">Visão Geral</h4>
+                <p class="text-muted small">Visual pensado para leitura rápida.</p>
+            </div>
+            <div class="card-body p-4 bg-light bg-opacity-50">
+                <ul class="list-group list-group-flush rounded-3 shadow-sm border-0">
+                    <li class="list-group-item d-flex align-items-center gap-3 p-3 border-0 mb-1 rounded-3">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-layers fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block">Cards Modernos</strong>
+                            <small class="text-muted">Profundidade suave</small>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-center gap-3 p-3 border-0 mb-1 rounded-3">
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-type fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block">Tipografia Forte</strong>
+                            <small class="text-muted">Atual e expressiva</small>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-center gap-3 p-3 border-0 rounded-3">
+                        <div class="bg-danger bg-opacity-10 text-danger rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-ui-radios-grid fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block">Componentes</strong>
+                            <small class="text-muted">Ícones reutilizáveis</small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </footer>
-</body>
-</html>
+    </div>
+</div>
+
+<section class="py-5 bg-light rounded-5 px-4 px-md-5 mb-5 shadow-sm border">
+    <div class="text-center mb-5 max-w-md mx-auto">
+        <span class="text-primary fw-bold text-uppercase tracking-wider small d-block mb-2">Por dentro da experiência</span>
+        <h2 class="display-6 fw-bold m-0">Menos fricção, mais clareza.</h2>
+    </div>
+
+    <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-4">
+        <!-- Feature 1 -->
+        <div class="col">
+            <div class="card h-100 border-0 bg-transparent text-center px-3 hover-lift transition-all">
+                <div class="card-body">
+                    <div class="bg-white rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 80px; height: 80px;">
+                        <i class="bi bi-diagram-3 fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold h5">Fluxos claros</h4>
+                    <p class="text-muted small">Hierarquia visual para entender rápido o que precisa ser feito com filtros intuitivos.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Feature 2 -->
+        <div class="col">
+            <div class="card h-100 border-0 bg-transparent text-center px-3 hover-lift transition-all">
+                <div class="card-body">
+                    <div class="bg-white rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 80px; height: 80px;">
+                        <i class="bi bi-grid-1x2 fs-1 text-success"></i>
+                    </div>
+                    <h4 class="fw-bold h5">Organização</h4>
+                    <p class="text-muted small">Seções, cartões e filtros com leitura confortável em qualquer tamanho de tela.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Feature 3 -->
+        <div class="col">
+            <div class="card h-100 border-0 bg-transparent text-center px-3 hover-lift transition-all">
+                <div class="card-body">
+                    <div class="bg-white rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 80px; height: 80px;">
+                        <i class="bi bi-palette fs-1 text-warning"></i>
+                    </div>
+                    <h4 class="fw-bold h5">Estética atual</h4>
+                    <p class="text-muted small">Gradientes, superfícies elevadas e tipografia extremamente focada e limpa.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Feature 4 -->
+        <div class="col">
+            <div class="card h-100 border-0 bg-transparent text-center px-3 hover-lift transition-all">
+                <div class="card-body">
+                    <div class="bg-white rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 80px; height: 80px;">
+                        <i class="bi bi-display fs-1 text-info"></i>
+                    </div>
+                    <h4 class="fw-bold h5">Base responsiva</h4>
+                    <p class="text-muted small">O mesmo sistema se adapta de forma limpa ao celular com um menu em hambúrguer.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .backdrop-blur { backdrop-filter: blur(10px); }
+    .tracking-tight { letter-spacing: -0.03em; }
+    .tracking-wider { letter-spacing: 0.1em; }
+    .hover-scale:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,.1) !important; }
+    .hover-lift:hover { transform: translateY(-10px); }
+    .transition-all { transition: all .3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+    @media (min-width: 992px) {
+        .transform-rotate-hover { transform: perspective(1000px) rotateY(-5deg) rotateX(2deg); }
+        .transform-rotate-hover:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+    }
+</style>
+{% endblock content %}

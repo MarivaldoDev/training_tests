@@ -1,52 +1,100 @@
 {% extends 'partials/base.html' %}
+{% load static %}
 {% block extra_head %}
     <title>Detalhes - {{ task.title }}</title>
 {% endblock extra_head %}
 
 {% block content %}
-    <br><br><br>
+<div class="row align-items-center mb-4 mt-2">
+    <div class="col-md-8 d-flex align-items-center">
+        <a href="{% url 'tasks:tasks' %}" class="btn btn-outline-secondary rounded-circle me-3 flex-shrink-0" title="Voltar" style="width: 45px; height: 45px; padding: 0; display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-arrow-left fs-5"></i>
+        </a>
+        <h1 class="fw-bold m-0 text-dark text-truncate" title="{{ task.title }}">
+            {{ task.title }}
+        </h1>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
+        <a href="{% url 'tasks:update_task' task.slug %}" class="btn btn-outline-primary shadow-sm" title="Editar Tarefa">
+            <i class="bi bi-pencil-square me-1"></i> <span class="d-none d-sm-inline">Editar</span>
+        </a>
+        <form method="post" action="{% url 'tasks:delete_task' task.slug %}" class="m-0">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger shadow-sm" title="Excluir Tarefa" onclick="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                <i class="bi bi-trash3 me-1"></i> <span class="d-none d-sm-inline">Excluir</span>
+            </button>
+        </form>
+    </div>
+</div>
 
-    <div class="container task-list">
-        <h2 class="section-title">Detalhe da Tarefa</h2>
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-5">
+    <div class="row g-0">
+        {% if task.image %}
+        <div class="col-lg-5 col-xl-4 bg-light border-end">
+            <div class="h-100 placeholder-glow d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 position-relative" style="min-height: 250px;">
+                <img src="{{ task.image.url }}" alt="{{ task.title }}" class="img-fluid w-100 h-100 object-fit-cover position-absolute top-0 start-0">
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="{% if task.image %}col-lg-7 col-xl-8{% else %}col-12{% endif %}">
+            <div class="card-body p-4 p-md-5 d-flex flex-column h-100">
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    {% if task.category %}
+                        <a class="badge bg-primary text-decoration-none px-3 py-2 rounded-pill shadow-sm" href="{% url 'tasks:tasks_by_category' task.category.slug %}">
+                            <i class="bi bi-tag me-1"></i> {{ task.category.name }}
+                        </a>
+                    {% else %}
+                        <span class="badge bg-secondary px-3 py-2 rounded-pill shadow-sm">
+                            <i class="bi bi-tag opacity-50 me-1"></i> Sem categoria
+                        </span>
+                    {% endif %}
+                    
+                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm">
+                        <i class="bi bi-calendar-event opacity-75 me-1"></i> Início: {{ task.start_date|date:"d/m/Y"|default:"-" }}
+                    </span>
+                    
+                    {% if task.finish_date %}
+                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm">
+                        <i class="bi bi-calendar-check opacity-75 me-1"></i> Conclusão: {{ task.finish_date|date:"d/m/Y" }}
+                    </span>
+                    {% endif %}
+                    
+                    {% if task.completed %}
+                        <span class="badge bg-success px-3 py-2 rounded-pill shadow-sm">
+                            <i class="bi bi-check-circle-fill me-1"></i> Concluída
+                        </span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill shadow-sm">
+                            <i class="bi bi-hourglass-split me-1"></i> Em andamento
+                        </span>
+                    {% endif %}
+                </div>
 
-        <div class="task-detail-card">
-            <div class="task-detail-grid">
-                {% if task.image %}
-                    <div class="detail-image">
-                        <img src="{{ task.image.url }}" alt="{{ task.title }}">
-                    </div>
-                {% endif %}
-                <div class="detail-info">
-                    <h2 class="task-title">{{ task.title }} {% if task.completed %}<span class="task-completed">✓</span>{% endif %}</h2>
+                <div class="flex-grow-1">
+                    <h5 class="fw-bold text-muted mb-3 text-uppercase tracking-wide small">Descrição da Tarefa</h5>
+                    <div class="text-dark bg-light rounded-3 p-4 border bg-opacity-50" style="white-space: pre-wrap; line-height: 1.6;">{{ task.description|default:"Essa tarefa não possui descrição." }}</div>
+                </div>
 
-                    <div class="detail-meta">
-                        {% if task.category %}
-                            <div class="meta-item"><strong>Categoria</strong>: <a href="{% url 'tasks:tasks_by_category' task.category.slug %}">{{ task.category.name }}</a></div>
-                        {% else %}
-                              <div class="meta-item"><strong>Categoria</strong>: Sem categoria</div>
-                        {% endif %}
-                        <div class="meta-item"><strong>Início</strong>: {{ task.start_date }}</div>
-                        {% if task.finish_date %}<div class="meta-item"><strong>Conclusão</strong>: {{ task.finish_date }}</div>{% endif %}
-                    </div>
-
-                    <div class="detail-description">{{ task.description }}</div>
-
-                    <div class="detail-actions">
-                        <form method="post" action="{% url 'tasks:toggle_task_completed' task.slug %}" style="display:inline">
-                            {% csrf_token %}
-                            <label class="btn btn-light" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
-                                <input type="checkbox" name="completed" onchange="this.form.submit()" {% if task.completed %}checked{% endif %}>
-                                Concluída        
+                <div class="mt-5 pt-4 border-top">
+                    <form method="post" action="{% url 'tasks:toggle_task_completed' task.slug %}" class="m-0 bg-light p-3 rounded-3 border d-inline-block">
+                        {% csrf_token %}
+                        <div class="form-check form-switch m-0 d-flex align-items-center fs-5">
+                            <input class="form-check-input mt-0 me-3" type="checkbox" role="switch" id="completedSwitch" name="completed" onchange="this.form.submit()" {% if task.completed %}checked{% endif %} style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                            <label class="form-check-label fw-bold {% if task.completed %}text-success{% else %}text-muted{% endif %}" for="completedSwitch" style="cursor: pointer;">
+                                {% if task.completed %}Desmarcar Tarefa{% else %}Concluir Tarefa{% endif %}
                             </label>
-                        </form>
-                        <a href="{% url 'tasks:update_task' task.slug %}" class="btn btn-warning">Editar</a>
-                        <form method="post" action="{% url 'tasks:delete_task' task.slug %}" style="display:inline">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Excluir</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<style>
+    .object-fit-cover { object-fit: cover; }
+    .tracking-wide { letter-spacing: 0.05em; }
+    .form-switch .form-check-input { margin-left: -2.5em; }
+</style>
 {% endblock content %}

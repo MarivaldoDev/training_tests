@@ -3,32 +3,43 @@
     <title>Login — Task Manager</title>
 {% endblock extra_head %}
 
+{% block body_class %}auth-page{% endblock %}
+
 {% block content %}
 
-  <main class="login-main">
-    <section class="card login-card">
-      <h1 class="card-title">Login</h1>
+  <section class="auth-layout">
+    <div class="auth-intro">
+      <span class="eyebrow">Acesso</span>
+      <h1>Entre para retomar seu fluxo.</h1>
+      <p>Uma tela mais elegante e direta para voltar ao seu painel com poucos passos.</p>
+    </div>
+
+    <section class="card auth-card login-card">
+      <h2 class="card-title">Login</h2>
 
       {% if messages %}
         {% include 'partials/messages.html' %}
       {% endif %}
 
-      <form action="{% url 'authors:login' %}" method="post" class="login-form">
+      <form action="{% url 'authors:login' %}" method="post" class="stack-form">
         {% csrf_token %}
-        {% for field in form %}
-          {{ field.label }}
-          {{ field }}
+        {% for field in form.visible_fields %}
+          <div class="form-field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<small class="field-help">{{ field.help_text }}</small>{% endif %}
+            {% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+          </div>
         {% endfor %}
-        <button type="submit" class="btn btn-primary">Entrar</button>
+        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
       </form>
 
-      <p class="small muted">Ainda não tem conta? <a href="{% url 'authors:register' %}" class="link">Registre-se</a></p>
-      <p class="small muted">Esqueceu a senha? <a href="{% url 'authors:password_reset' %}" class="link">Redefinir senha</a></p>
+      <div class="auth-links">
+        <p class="small muted">Ainda não tem conta? <a href="{% url 'authors:register' %}" class="link">Registre-se</a></p>
+        <p class="small muted">Esqueceu a senha? <a href="{% url 'authors:password_reset' %}" class="link">Redefinir senha</a></p>
+      </div>
     </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">&copy; 2026 Task Manager</div>
-  </footer>
+  </section>
   
 {% endblock content %}

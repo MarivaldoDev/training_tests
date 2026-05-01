@@ -1,24 +1,94 @@
 {% load static %}
-<nav class="navbar">
-    <div class="container nav-content">
-        <div class="nav-brand">
-            <a href="{% url 'tasks:home' %}">
-                <h1>📋 Task Manager</h1>
-            </a>
-        </div>
-        <div class="nav-actions">
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm mb-4" aria-label="Navegação principal">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{% url 'tasks:home' %}">
+            <i class="bi bi-ui-checks text-primary fs-4"></i>
+            <span>Task Manager</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            
             {% if user.is_authenticated %}
-                <ul class="nav-menu">
-                    <li><a href="{% url 'tasks:tasks' %}" class="nav-link {% if current == 'tasks' %}active{% endif %}">Tarefas</a></li>
-                    <li><a href="{% url 'tasks:categories' %}" class="nav-link">Categorias</a></li>
-                    <li><a href="{% url 'tasks:dashboard' %}" class="nav-link">Dashboard</a></li>
-                    <li><a href="{% url 'authors:logout' %}" class="nav-link">Logout</a></li>
+                <ul class="navbar-nav align-items-lg-center gap-2">
+                    <li class="nav-item">
+                        <a href="{% url 'tasks:tasks' %}" class="nav-link {% if current == 'tasks' %}active fw-semibold{% endif %}">
+                            <i class="bi bi-list-task d-lg-none me-2"></i> Tarefas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'tasks:categories' %}" class="nav-link {% if current == 'categories' %}active fw-semibold{% endif %}">
+                            <i class="bi bi-tags d-lg-none me-2"></i> Categorias
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'tasks:dashboard' %}" class="nav-link {% if current == 'dashboard' %}active fw-semibold{% endif %}">
+                            <i class="bi bi-speedometer2 d-lg-none me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    
+                    <span class="d-none d-lg-block mx-2 text-muted">|</span>
+                    
+                    <li class="nav-item">
+                        <a href="{% url 'authors:logout' %}" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1">
+                            <i class="bi bi-box-arrow-right"></i> Sair
+                        </a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav gap-2">
+                    <li class="nav-item">
+                        <a href="{% url 'authors:login' %}" class="btn btn-primary d-flex align-items-center gap-2">
+                            <i class="bi bi-box-arrow-in-right"></i> Entrar
+                        </a>
+                    </li>
                 </ul>
             {% endif %}
-            <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema">
-                <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
-                <span class="theme-toggle__label">Tema</span>
+
+            <!-- Botão de alternar tema -->
+            <button id="themeToggleBtn" class="btn btn-link nav-link px-3 d-flex align-items-center ms-lg-2 mt-3 mt-lg-0 border rounded-pill shadow-sm" type="button" aria-label="Alternar tema luz/escuro">
+                <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                <span class="d-lg-none ms-2" id="themeText">Modo Escuro</span>
             </button>
+
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const themeBtn = document.getElementById("themeToggleBtn");
+        const themeIcon = document.getElementById("themeIcon");
+        const themeText = document.getElementById("themeText");
+        
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.classList.remove('bi-moon-stars-fill');
+                themeIcon.classList.add('bi-sun-fill');
+                themeIcon.classList.add('text-warning');
+                themeText.textContent = "Modo Claro";
+            } else {
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.remove('text-warning');
+                themeIcon.classList.add('bi-moon-stars-fill');
+                themeText.textContent = "Modo Escuro";
+            }
+        }
+
+        const currentTheme = document.documentElement.getAttribute("data-bs-theme") || "light";
+        updateIcon(currentTheme);
+
+        themeBtn.addEventListener("click", function() {
+            let newTheme = document.documentElement.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+            
+            document.documentElement.dataset.theme = newTheme;
+            document.documentElement.setAttribute("data-bs-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            
+            updateIcon(newTheme);
+        });
+    });
+</script>

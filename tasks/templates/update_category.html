@@ -3,20 +3,40 @@
     <title>Atualizar Categoria</title>
 {% endblock extra_head %}
 
+{% block body_class %}form-page{% endblock %}
+
 {% block content %}
-  <br><br><br>
-  <div class="card form-card">
-    <h2>Atualizar Categoria</h2>
+  <section class="page-header">
+    <h1>Editar categoria</h1>
+  </section>
+
+  <div class="card form-card form-card--wide">
     {% include 'partials/messages.html' %}
     
-    <form method="post" enctype="multipart/form-data" action="{% url 'tasks:update_category' category.slug %}">
+    <form method="post" enctype="multipart/form-data" action="{% url 'tasks:update_category' category.slug %}" class="stack-form">
       {% csrf_token %}
-      {{ form.as_p }}
-      <div class="actions">
-        <button type="submit">Salvar</button>
-        <a href="{% url 'tasks:dashboard' %}">Voltar</a>
+      {% for field in form.visible_fields %}
+        <div class="form-field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<small class="field-help">{{ field.help_text }}</small>{% endif %}
+          {% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+      {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+      <div class="actions btn-icon-group" style="gap: 1rem;">
+        <button type="submit" class="btn-icon btn-icon-add" title="Salvar categoria">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </button>
+        <a href="{% url 'tasks:dashboard' %}" class="btn-icon btn-icon-back" title="Voltar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </a>
       </div>
     </form>
-
   </div>
 {% endblock content %}

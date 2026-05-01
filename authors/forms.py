@@ -7,6 +7,12 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = Author
         fields = ("username", "email", "image_profile", "password")
+        labels = {
+            "username": "Nome de Usuário",
+            "email": "E-mail",
+            "image_profile": "Imagem de Perfil (Opcional)",
+            "password": "Senha",
+        }
         widgets = {
             "username": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Seu nome de usuário"}
@@ -55,6 +61,11 @@ class UpdateRegisterForm(forms.ModelForm):
     class Meta:
         model = Author
         fields = ("username", "email", "image_profile")
+        labels = {
+            "username": "Nome de Usuário",
+            "email": "E-mail",
+            "image_profile": "Imagem de Perfil",
+        }
         widgets = {
             "username": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Seu nome de usuário"}
