@@ -142,3 +142,27 @@ class TasksViewsTests(TasksTestBase):
 
         self.assertFalse(task.completed)
         self.assertEqual(response.status_code, 302)
+
+    def test_tasks_update_tasks_returns_error_message_when_form_is_invalid(self):
+        task1 = self.make_task(title="Teste")
+        task2 = self.make_task(title="Teste2")
+        response = self.client.post(
+            reverse("tasks:update_task", kwargs={"slug": task1.slug}),
+            data={"title": task2.title},
+        )
+
+        content = response.content.decode("utf-8")
+        self.assertIn("Essa tarefa já existe.", content)
+
+    def test_tasks_update_tasks_redirects_to_task_detail_after_successful_update(self):
+        task = self.make_task()
+
+        response = self.client.post(
+            reverse("tasks:update_task", kwargs={"slug": task.slug}),
+            data={"title": "Updated Task", "start_date": task.start_date},
+        )
+
+        response.content.decode("utf-8")
+        self.assertRedirects(
+            response, reverse("tasks:task_detail", kwargs={"slug": "updated-task"})
+        )
