@@ -24,7 +24,9 @@ class TasksViewsTests(TasksTestBase):
 
         response = self.client.get(reverse("tasks:categories"))
         content = response.content.decode("utf-8")
-        response_context_categories = response.context["categories"]
+        response_context_categories = response.context[
+            "categories_with_tasks_incomplete"
+        ]
 
         self.assertIn("Category 1", content)
         self.assertNotIn("Category 2", content)
@@ -165,4 +167,80 @@ class TasksViewsTests(TasksTestBase):
         response.content.decode("utf-8")
         self.assertRedirects(
             response, reverse("tasks:task_detail", kwargs={"slug": "updated-task"})
+        )
+
+    def test_tasks_update_tasks_does_not_update_if_no_changes(self):
+        task = self.make_task()
+
+        response = self.client.post(
+            reverse("tasks:update_task", kwargs={"slug": task.slug}),
+            data={"title": task.title, "start_date": task.start_date},
+        )
+
+        self.assertRedirects(
+            response, reverse("tasks:task_detail", kwargs={"slug": task.slug})
+        )
+
+    def test_tasks_delete_tasks_shows_message_confirmation_before_deletion(self):
+        task = self.make_task()
+
+        response = self.client.get(
+            reverse("tasks:delete_task", kwargs={"slug": task.slug})
+        )
+
+        content = response.content.decode("utf-8")
+        self.assertIn(
+            f'Tem certeza que deseja excluir a tarefa "{task.title}"?', content
+        )
+
+    def test_tasks_delete_task_redirects_to_tasks_list_after_deletion(self):
+        task = self.make_task()
+
+        response = self.client.post(
+            reverse("tasks:delete_task", kwargs={"slug": task.slug})
+        )
+
+        self.assertRedirects(response, reverse("tasks:tasks"))
+
+    def test_tasks_only_user_can_access_views(self):
+        self.client.logout()
+        response = self.client.get(reverse("tasks:dashboard"))
+        self.assertRedirects(response, reverse("authors:login") + "?next=/dashboard/")
+
+        response = self.client.get(reverse("tasks:tasks"))
+        self.assertRedirects(response, reverse("authors:login") + "?next=/tasks/")
+
+        response = self.client.get(reverse("tasks:categories"))
+        self.assertRedirects(response, reverse("authors:login") + "?next=/categories/")
+
+        task = self.make_task()
+        response = self.client.get(
+            reverse("tasks:task_detail", kwargs={"slug": task.slug})
+        )
+        self.assertRedirects(
+            response, reverse("authors:login") + f"?next=/tasks/details/{task.slug}/"
+        )
+
+        response = self.client.post(
+            reverse("tasks:toggle_task_completed", kwargs={"slug": task.slug}),
+            data={"completed": "completed"},
+        )
+        self.assertRedirects(
+            response,
+            reverse("authors:login") + f"?next=/tasks/details/{task.slug}/toggle/",
+        )
+
+        response = self.client.post(
+            reverse("tasks:update_task", kwargs={"slug": task.slug}),
+            data={"title": "Updated Task", "start_date": task.start_date},
+        )
+        self.assertRedirects(
+            response, reverse("authors:login") + f"?next=/tasks/update/{task.slug}/"
+        )
+
+        response = self.client.post(
+            reverse("tasks:delete_task", kwargs={"slug": task.slug})
+        )
+        self.assertRedirects(
+            response, reverse("authors:login") + f"?next=/tasks/delete/{task.slug}/"
         )

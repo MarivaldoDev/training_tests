@@ -68,6 +68,29 @@ html[data-theme="dark"] .hero-panel__card {
     color: var(--text) !important;
 }
 
+/* Ensure top-level headings and task descriptions are white in dark mode */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] .page-header h1,
+html[data-theme="dark"] .hero h1,
+html[data-theme="dark"] .dashboard-hero h1,
+html[data-theme="dark"] .card h1 {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .detail-description,
+html[data-theme="dark"] .task-content p,
+html[data-theme="dark"] .task-content h2,
+html[data-theme="dark"] .task-content h3 {
+    color: #ffffff !important;
+}
+
+/* Specific override for elements using Bootstrap "text-dark bg-light" in task detail */
+html[data-theme="dark"] .card-body .text-dark,
+html[data-theme="dark"] .text-dark.bg-light,
+html[data-theme="dark"] .bg-light.text-dark {
+    color: #ffffff !important;
+}
+
 /* Force muted text to be readable in dark mode */
 html[data-theme="dark"] .text-muted,
 html[data-theme="dark"] .small,
@@ -864,7 +887,7 @@ input[type="checkbox"] {
     display: grid;
     grid-template-columns: 96px minmax(0, 1fr);
     gap: 1rem;
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 1.4rem;
     border: 1px solid var(--border);
     background: var(--surface);
@@ -884,7 +907,7 @@ input[type="checkbox"] {
 
 .task-image-wrap {
     width: 100%;
-    min-height: 96px;
+    min-height: 72px;
     border-radius: 1.1rem;
     overflow: hidden;
     background: var(--surface-muted);
@@ -898,11 +921,11 @@ input[type="checkbox"] {
 
 .task-noimage {
     width: 100%;
-    min-height: 96px;
+    min-height: 72px;
     display: grid;
     place-items: center;
     font-family: "Space Grotesk", sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary);
     background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 12%, var(--surface-muted)), color-mix(in srgb, var(--secondary) 10%, var(--surface-solid)));
