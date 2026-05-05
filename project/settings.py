@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
-    "https://5d28-170-239-111-84.ngrok-free.app",
+    "https://12cb-170-239-111-164.ngrok-free.app",
 ]
 
 
@@ -132,9 +132,9 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-# DEFAULT_FROM_EMAIL = "testesdepython2@gmail.com"
-# EMAIL_HOST = config("EMAIL_HOST")
-# EMAIL_PORT = config("EMAIL_PORT")
-# EMAIL_USE_TLS = config("EMAIL_USE_TLS")
-# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = "testesdepython2@gmail.com"
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")

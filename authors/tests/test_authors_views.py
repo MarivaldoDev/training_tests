@@ -1,4 +1,5 @@
-from django.urls import reverse
+from django.contrib.auth import views as auth_views
+from django.urls import resolve, reverse
 
 from .test_base_authors import AuthorsTestBase
 
@@ -39,6 +40,10 @@ class AuthorsViewsTests(AuthorsTestBase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("tasks:dashboard"))
 
+    def test_authors_reset_password_view_view_function_is_correct(self):
+        view = resolve(reverse("authors:password_reset"))
+        self.assertIs(view.func.view_class, auth_views.PasswordResetView)
+
     def test_authors_reset_password_view_redirects_to_password_reset_done_on_successful_submission(
         self,
     ):
@@ -56,3 +61,10 @@ class AuthorsViewsTests(AuthorsTestBase):
         content = response.content.decode("utf-8")
 
         self.assertIn("Redefinição de senha enviada", content)
+        self.assertTemplateUsed(
+            response, "authors/registration/password_reset_done.html"
+        )
+
+    def test_authors_reset_done_view_view_function_is_correct(self):
+        view = resolve(reverse("authors:password_reset_done"))
+        self.assertIs(view.func.view_class, auth_views.PasswordResetDoneView)

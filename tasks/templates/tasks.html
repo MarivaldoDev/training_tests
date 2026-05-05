@@ -5,80 +5,81 @@
 {% endblock extra_head %}
 
 {% block content %}
-<div class="row mb-4 align-items-center">
-    <div class="col-md-8">
-        <h1 class="fw-bold m-0 text-dark">
-            <i class="bi bi-list-check me-2 text-primary"></i>
-            {% if category %}Tarefas em "{{ category.name }}"{% else %}Todas as Tarefas{% endif %}
-        </h1>
-        <p class="text-muted mt-1 mb-0">Gerencie e organize suas atividades diárias</p>
-    </div>
-    <div class="col-md-4 text-md-end mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
-        <a href="{% url 'tasks:create_task' %}" class="btn btn-primary shadow-sm" title="Nova Tarefa">
-            <i class="bi bi-plus-lg me-1"></i> Nova Tarefa
-        </a>
-        <a href="{% url 'tasks:create_category' %}" class="btn btn-outline-primary shadow-sm" title="Nova Categoria">
-            <i class="bi bi-folder-plus me-1"></i> Categoria
-        </a>
-    </div>
-</div>
-
-<div class="card shadow-sm mb-4 border-0">
-    <div class="card-body bg-light rounded-3">
-        <form method="get" class="row g-3 align-items-end">
-            {% for field in filter_form.visible_fields %}
-                <div class="col-md-4 col-sm-6">
-                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold text-muted small">{{ field.label }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <div class="col-md-4 col-sm-12 d-flex gap-2 h-100">
-                <button type="submit" class="btn btn-primary d-flex align-items-center flex-grow-1 justify-content-center">
-                    <i class="bi bi-funnel me-1"></i> Filtrar
-                </button>
-                <a href="{% url 'tasks:tasks' %}" class="btn btn-outline-secondary d-flex align-items-center" title="Limpar Filtros">
-                    <i class="bi bi-eraser me-xl-1"></i> <span class="d-none d-xl-inline">Limpar</span>
-                </a>
-            </div>
-        </form>
-    </div>
-</div>
-
-<section class="task-list">
-    {% if page_obj %}
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
-            {% for task in page_obj %}
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 hover-shadow transition-all position-relative">
-                        {% if task.image %}
-                            <img src="{{ task.image.url }}" alt="{{ task.title }}" class="card-img-top object-fit-cover h-50">
-                        {% else %}
-                            <div class="card-img-top bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style="height:120px;">
-                                <i class="bi bi-card-checklist display-4 text-muted opacity-50"></i>
-                            </div>
-                        {% endif %}
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold text-truncate" title="{{ task.title }}">{{ task.title }}</h5>
-                            <p class="card-text text-muted small flex-grow-1">
-                                <i class="bi bi-calendar-event me-1"></i> {{ task.start_date|date:"d/m/Y" }}
-                            </p>
-                            <a href="{% url 'tasks:task_detail' task.slug %}" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h1 class="fw-bold m-0 text-dark">
+                <i class="bi bi-list-check me-2 text-primary"></i>
+                {% if category %}Tarefas em "{{ category.name }}"{% else %}Todas as Tarefas{% endif %}
+            </h1>
+            <p class="text-muted mt-1 mb-0">Gerencie e organize suas atividades diárias</p>
         </div>
-    {% else %}
-        <div class="text-center py-5 bg-light rounded-4 border-dashed border-2 text-muted">
-            <i class="bi bi-inbox display-1 text-secondary mb-3"></i>
-            <h3 class="fw-bold">Nenhuma tarefa encontrada.</h3>
-            <p class="mb-4">Comece a organizar sua rotina criando sua primeira tarefa agora.</p>
-            <a href="{% url 'tasks:create_task' %}" class="btn btn-primary shadow-sm px-4 py-2">
-                <i class="bi bi-plus-lg me-2"></i>Criar Primeira Tarefa
+        <div class="col-md-4 text-md-end mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
+            <a href="{% url 'tasks:create_task' %}" class="btn btn-primary shadow-sm" title="Nova Tarefa">
+                <i class="bi bi-plus-lg me-1"></i> Nova Tarefa
+            </a>
+            <a href="{% url 'tasks:create_category' %}" class="btn btn-outline-primary shadow-sm" title="Nova Categoria">
+                <i class="bi bi-folder-plus me-1"></i> Categoria
             </a>
         </div>
-    {% endif %}
+    </div>
 
-    {% include "partials/paginator.html" %}
-</section>
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body bg-light rounded-3">
+            <form method="get" class="row g-2 align-items-center task-filter-form filters-compact">
+                {% for field in filter_form.visible_fields %}
+                    <div class="col-auto">
+                        <label for="{{ field.id_for_label }}" class="visually-hidden">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="col-auto d-flex gap-2 ms-auto">
+                    <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center">
+                        <i class="bi bi-funnel"></i>
+                        <span class="d-none d-sm-inline ms-1">Filtrar</span>
+                    </button>
+                    <a href="{% url 'tasks:tasks' %}" class="btn btn-outline-secondary btn-sm d-flex align-items-center" title="Limpar Filtros">
+                        <i class="bi bi-eraser"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <section class="task-list">
+        {% if page_obj %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+                {% for task in page_obj %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0 hover-shadow transition-all position-relative">
+                            {% if task.image %}
+                                <img src="{{ task.image.url }}" alt="{{ task.title }}" class="card-img-top object-fit-cover h-50">
+                            {% else %}
+                                <div class="card-img-top bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style="height:120px;">
+                                    <i class="bi bi-card-checklist display-4 text-muted opacity-50"></i>
+                                </div>
+                            {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold text-truncate" title="{{ task.title }}">{{ task.title }}</h5>
+                                <p class="card-text text-muted small flex-grow-1">
+                                    <i class="bi bi-calendar-event me-1"></i> {{ task.start_date|date:"d/m/Y" }}
+                                </p>
+                                <a href="{% url 'tasks:task_detail' task.slug %}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5 bg-light rounded-4 border-dashed border-2 text-muted">
+                <i class="bi bi-inbox display-1 text-secondary mb-3"></i>
+                <h3 class="fw-bold">Nenhuma tarefa encontrada.</h3>
+                <p class="mb-4">Comece a organizar sua rotina criando sua primeira tarefa agora.</p>
+                <a href="{% url 'tasks:create_task' %}" class="btn btn-primary shadow-sm px-4 py-2">
+                    <i class="bi bi-plus-lg me-2"></i>Criar Primeira Tarefa
+                </a>
+            </div>
+        {% endif %}
+
+        {% include "partials/paginator.html" %}
+    </section>
 {% endblock content %}
