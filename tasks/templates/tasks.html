@@ -52,9 +52,9 @@
                     <div class="col">
                         <div class="card h-100 shadow-sm border-0 hover-shadow transition-all position-relative">
                             {% if task.image %}
-                                <img src="{{ task.image.url }}" alt="{{ task.title }}" class="card-img-top object-fit-cover h-50">
+                                <img src="{{ task.image.url }}" alt="{{ task.title }}" class="card-img-top object-fit-cover" style="height:250px;">
                             {% else %}
-                                <div class="card-img-top bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style="height:120px;">
+                                <div class="card-img-top bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style="height:200px;">
                                     <i class="bi bi-card-checklist display-4 text-muted opacity-50"></i>
                                 </div>
                             {% endif %}
