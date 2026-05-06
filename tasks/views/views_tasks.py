@@ -46,6 +46,10 @@ class UpdateTask(UpdateView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        return get_object_or_404(Task, slug=slug, author=self.request.user)
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
@@ -72,6 +76,10 @@ class DeleteTask(DeleteView):
     template_name = "task_detail.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        return get_object_or_404(Task, slug=slug, author=self.request.user)
 
     def get_success_url(self):
         return reverse("tasks:tasks")

@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
@@ -25,6 +26,14 @@ class RegisterView(CreateView):
         list_errors(self.request, form)
         return super().form_invalid(form)
 
+    def form_valid(self, form):
+        form.save()
+        messages.success(
+            self.request,
+            "Seu cadastro foi realizado com sucesso! Faça login para acessar o dashboard.",
+        )
+        return super().form_valid(form)
+
 
 class RegisterUpdateView(UpdateView):
     model = Author
@@ -37,6 +46,7 @@ class RegisterUpdateView(UpdateView):
 
     def form_valid(self, form):
         form.save()
+        messages.success(self.request, "Seu perfil foi atualizado com sucesso!")
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -51,6 +61,12 @@ class RegisterDeleteView(DeleteView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def form_valid(self, form):
+        messages.success(
+            self.request, "Seu perfil foi deletado com sucesso! Sentiremos sua falta."
+        )
+        return super().form_valid(form)
 
 
 class MyLoginView(LoginView):

@@ -2,7 +2,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -49,6 +49,10 @@ class UpdateCategory(UpdateView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        return get_object_or_404(Category, slug=slug, author=self.request.user)
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
@@ -75,6 +79,10 @@ class DeleteCategory(DeleteView):
     template_name = "categories.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        return get_object_or_404(Category, slug=slug, author=self.request.user)
 
     def get_success_url(self):
         return reverse("tasks:dashboard")
