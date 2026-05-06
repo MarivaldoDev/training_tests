@@ -80,7 +80,7 @@ class DeleteTask(DeleteView):
 @login_required(login_url="authors:login")
 @user_only
 def toggle_task_completed(request, slug: str):
-    task = get_object_or_404(Task, slug=slug)
+    task = get_object_or_404(Task, slug=slug, author=request.user)
 
     if request.method == "POST":
         task.completed = "completed" in request.POST

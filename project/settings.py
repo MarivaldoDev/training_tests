@@ -128,9 +128,9 @@ LOGGING = LOGGING
 AUTH_USER_MODEL = "authors.Author"
 
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 DEFAULT_FROM_EMAIL = "testesdepython2@gmail.com"
 EMAIL_HOST = config("EMAIL_HOST")

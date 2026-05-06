@@ -153,14 +153,13 @@
                 </div>
 
                 <!-- Delete Profile Option -->
-                {% if request.user.image_profile %}
-                    <form action="{% url 'authors:delete' %}" method="post" class="w-100 mt-3" data-confirm-message="Tem certeza que deseja excluir seu perfil? Essa ação não pode ser desfeita.">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-danger btn-sm w-100 rounded-pill">
-                            <i class="bi bi-trash me-1"></i> Excluir Perfil
-                        </button>
-                    </form>
-                {% endif %}
+               
+                <form action="{% url 'authors:delete' %}" method="post" class="w-100 mt-3" data-confirm-message="Tem certeza que deseja excluir seu perfil? Essa ação não pode ser desfeita.">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm w-100 rounded-pill">
+                        <i class="bi bi-trash me-1"></i> Excluir Perfil
+                    </button>
+                </form>
             </div>
         </div>
     </div>
