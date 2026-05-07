@@ -37,6 +37,7 @@ class Author(AbstractUser):
                 self.email_user(subject, message, from_email)
                 logger.info(f"Email de boas-vindas enviado para {self.username}")
             except Exception as e:
+                pass
                 logger.error(
                     f"Erro ao enviar email de boas-vindas para {self.username}: {e}"
                 )
