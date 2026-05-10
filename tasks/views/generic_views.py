@@ -6,6 +6,7 @@ from django.shortcuts import render
 
 from tasks.decorators.decorator import user_only
 from tasks.models import Category, Task
+from utils.functions import _build_productivity_chart
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,8 @@ def home(request):
 @login_required(login_url="authors:login")
 @user_only
 def dashboard(request):
-    tasks = Task.objects.filter(author=request.user).aggregate(
+    user_tasks = Task.objects.filter(author=request.user)
+    tasks = user_tasks.aggregate(
         open_count=Count("id", filter=Q(completed=False)),
         completed_count=Count("id", filter=Q(completed=True)),
     )
@@ -29,7 +31,8 @@ def dashboard(request):
         .count()
     )
 
-    recents_tasks = Task.objects.filter(author=request.user).order_by("-start_date")[:5]
+    recents_tasks = user_tasks.order_by("-start_date")[:5]
+    completed_tasks = user_tasks.filter(completed=True, finish_date__isnull=False)
 
     return render(
         request,
@@ -39,5 +42,6 @@ def dashboard(request):
             "completed_tasks": tasks["completed_count"],
             "categories_with_open_count": categories_with_open_count,
             "recents_tasks": recents_tasks,
+            "productivity_chart": _build_productivity_chart(completed_tasks),
         },
     )

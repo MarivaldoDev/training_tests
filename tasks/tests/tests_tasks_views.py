@@ -1,4 +1,8 @@
+from collections import Counter
+from datetime import timedelta
+
 from django.urls import resolve, reverse
+from django.utils import timezone
 
 from ..views import generic_views, views_category, views_tasks
 from .test_base_tasks import TasksTestBase
@@ -64,6 +68,39 @@ class TasksViewsTests(TasksTestBase):
     def test_tasks_home_view_loads_correct_template(self):
         response = self.client.get(reverse("tasks:home"))
         self.assertTemplateUsed(response, "home.html")
+
+    def test_tasks_dashboard_view_provides_productivity_chart_data(self):
+        today = timezone.localdate()
+        previous_week = today - timedelta(weeks=1)
+        previous_month = (today.replace(day=1) - timedelta(days=1)).replace(day=15)
+
+        self.make_task(title="Current Week", completed=True, finish_date=today)
+        self.make_task(title="Previous Week", completed=True, finish_date=previous_week)
+        self.make_task(
+            title="Previous Month", completed=True, finish_date=previous_month
+        )
+
+        response = self.client.get(reverse("tasks:dashboard"))
+        chart = response.context["productivity_chart"]
+        current_week_start = today - timedelta(days=today.weekday())
+        current_week_start - timedelta(weeks=1)
+        current_month_start = today.replace(day=1)
+        previous_month_start = (current_month_start - timedelta(days=1)).replace(day=1)
+        monthly_counter = Counter(
+            task_date.replace(day=1)
+            for task_date in [today, previous_week, previous_month]
+        )
+
+        self.assertEqual(len(chart["weekly"]["labels"]), 8)
+        self.assertEqual(len(chart["monthly"]["labels"]), 6)
+        self.assertEqual(chart["weekly"]["data"][-1], 1)
+        self.assertEqual(chart["weekly"]["data"][-2], 1)
+        self.assertEqual(
+            chart["monthly"]["data"][-1], monthly_counter[current_month_start]
+        )
+        self.assertEqual(
+            chart["monthly"]["data"][-2], monthly_counter[previous_month_start]
+        )
 
     def test_tasks_tasks_template_shows_no_tasks_message_when_no_tasks(self):
         response = self.client.get(reverse("tasks:tasks"))

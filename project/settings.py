@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_cleanup.apps.CleanupConfig",
     "tasks",
     "authors",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -126,6 +128,23 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 LOGGING = LOGGING
 AUTH_USER_MODEL = "authors.Author"
+
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "storages.backends.azure_storage.AzureStorage",
+#         "OPTIONS": {
+#           "timeout": 20,
+#           "expiration_secs": 500,
+#         },
+#     },
+#     "staticfiles": {
+#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#     }
+# }
+
+# AZURE_CONTAINER = config("AZURE_CONTAINER")
+# AZURE_ACCOUNT_NAME = config("AZURE_ACCOUNT_NAME")
+# AZURE_ACCOUNT_KEY = config("AZURE_ACCOUNT_KEY")
 
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

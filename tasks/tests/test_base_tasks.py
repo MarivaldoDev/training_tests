@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils import timezone
 
 from authors.models import Author
 
@@ -31,6 +32,7 @@ class TasksTestBase(TestCase):
         author_data=None,
         start_date="2026-01-01",
         completed=False,
+        finish_date=None,
     ):
         # normaliza author_data
         if isinstance(author_data, str):
@@ -55,4 +57,7 @@ class TasksTestBase(TestCase):
             author=author_obj,
             start_date=start_date,
             completed=completed,
+            finish_date=finish_date
+            if finish_date is not None
+            else (timezone.localdate() if completed else None),
         )
