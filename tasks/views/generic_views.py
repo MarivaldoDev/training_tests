@@ -31,7 +31,7 @@ def dashboard(request):
         .count()
     )
 
-    recents_tasks = user_tasks.order_by("-start_date")[:5]
+    recents_tasks = user_tasks.order_by("-created_at")[:5]
     completed_tasks = user_tasks.filter(completed=True, finish_date__isnull=False)
 
     return render(

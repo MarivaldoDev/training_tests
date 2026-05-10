@@ -1,5 +1,7 @@
+import logging
 from datetime import datetime
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -11,6 +13,8 @@ from utils.functions import list_errors, pagination
 from ..decorators.decorator import user_only
 from ..forms import TaskFilterForm, TaskForm, TaskUpdateForm
 from ..models import Category, Task
+
+logger = logging.getLogger(__name__)
 
 
 @method_decorator(login_required(login_url="authors:login"), name="dispatch")
@@ -26,6 +30,7 @@ class CreateTask(CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        messages.success(self.request, "Tarefa criada com sucesso!")
         return super().form_valid(form)
 
     def form_invalid(self, form):

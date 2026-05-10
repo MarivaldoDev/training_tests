@@ -11,6 +11,7 @@ class Category(models.Model):
     author = models.ForeignKey(
         Author, on_delete=models.CASCADE, related_name="categories"
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ("author", "slug")
@@ -36,6 +37,7 @@ class Task(models.Model):
     finish_date = models.DateField(blank=True, null=True)
     image = models.ImageField(upload_to="task_images/%Y/%m/", blank=True, null=True)
     completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ("author", "slug")
