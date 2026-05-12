@@ -104,7 +104,7 @@ class TasksViewsTests(TasksTestBase):
 
     def test_tasks_tasks_template_shows_no_tasks_message_when_no_tasks(self):
         response = self.client.get(reverse("tasks:tasks"))
-        self.assertIn(b"Nenhuma tarefa encontrada.", response.content)
+        self.assertIn(b"Nenhuma tarefa para exibir.", response.content)
 
     def test_tasks_tasks_template_loads_tasks(self):
         self.make_task()

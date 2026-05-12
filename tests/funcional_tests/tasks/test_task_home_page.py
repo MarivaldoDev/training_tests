@@ -8,7 +8,9 @@ class TaskHomePageFunctionalTest(TaskBaseFunctionalTest):
         self.browser.get(self.live_server_url)
         body = self.browser.find_element(By.TAG_NAME, "body")
 
-        self.assertIn("Gerencie suas tarefas de forma simples\ne atual.", body.text)
+        self.assertIn(
+            "Organize suas tarefas de forma eficiente\ne produtiva.", body.text
+        )
 
     def test_nav_menu_not_shows_if_user_is_not_authenticated(self):
         self.browser.get(self.live_server_url)

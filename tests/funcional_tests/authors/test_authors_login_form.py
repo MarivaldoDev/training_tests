@@ -19,7 +19,7 @@ class AuthorsLoginFormFunctionalTest(AuthorsBaseFuncionalTest):
         password.send_keys(Keys.ENTER)
 
         message_erro = WebDriverWait(self.browser, 10).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, "message"))
+            EC.visibility_of_element_located((By.CLASS_NAME, "alert"))
         )
 
         self.assertIn(

@@ -74,7 +74,7 @@
         <div class="d-flex flex-column h-100">
             <div class="mb-4">
                 <h1 class="fw-bold m-0 text-dark">
-                    <i class="bi bi-person-workspace text-primary me-2"></i>Bem-vindo de volta, {{ request.user.first_name|default:request.user.username }}
+                    <i class="bi bi-person-workspace text-primary me-2"></i>Bem-vindo, {{ request.user.first_name|default:request.user.username }}!
                 </h1>
                 <p class="text-muted mt-1 mb-0">Você está no caminho certo. Veja suas estatísticas abaixo.</p>
             </div>
