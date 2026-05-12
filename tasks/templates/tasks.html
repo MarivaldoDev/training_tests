@@ -1,7 +1,7 @@
 {% extends 'partials/base.html' %}
 {% load static %}
 {% block extra_head %}
-    <title>Tarefas - Task Manager</title>
+    <title>Tarefas - Fokus Manager</title>
 {% endblock extra_head %}
 
 {% block content %}
@@ -12,9 +12,9 @@
         <div class="col-md-8">
             <h1 class="fw-bold m-0 text-dark">
                 <i class="bi bi-list-check me-2 text-primary"></i>
-                {% if category %}Tarefas em "{{ category.name }}"{% else %}Todas as Tarefas{% endif %}
+                {% if category %}Tarefas em "{{ category.name }}"{% else %}Todas as Suas Tarefas{% endif %}
             </h1>
-            <p class="text-muted mt-1 mb-0">Gerencie e organize suas atividades diárias</p>
+            <p class="text-muted mt-1 mb-0">Acompanhe, organize e conclua suas atividades</p>
         </div>
         <div class="col-md-4 text-md-end mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
             <a href="{% url 'tasks:create_task' %}" class="btn btn-primary shadow-sm" title="Nova Tarefa">
@@ -66,6 +66,11 @@
                                 <p class="card-text text-muted small flex-grow-1">
                                     <i class="bi bi-calendar-event me-1"></i> {{ task.start_date|date:"d/m/Y" }}
                                 </p>
+                                {% if task.completed %}
+                                    <span class="badge bg-success rounded-pill mt-2 align-self-start">Concluída</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark rounded-pill mt-2 align-self-start">Pendente</span>
+                                {% endif %}
                                 <a href="{% url 'tasks:task_detail' task.slug %}" class="stretched-link"></a>
                             </div>
                         </div>
@@ -75,10 +80,10 @@
         {% else %}
             <div class="text-center py-5 bg-light rounded-4 border-dashed border-2 text-muted">
                 <i class="bi bi-inbox display-1 text-secondary mb-3"></i>
-                <h3 class="fw-bold">Nenhuma tarefa encontrada.</h3>
-                <p class="mb-4">Comece a organizar sua rotina criando sua primeira tarefa agora.</p>
+                <h3 class="fw-bold">Nenhuma tarefa para exibir.</h3>
+                <p class="mb-4">{% if category %}Não há tarefas nesta categoria{% else %}Crie sua primeira tarefa para começar{% endif %}</p>
                 <a href="{% url 'tasks:create_task' %}" class="btn btn-primary shadow-sm px-4 py-2">
-                    <i class="bi bi-plus-lg me-2"></i>Criar Primeira Tarefa
+                    <i class="bi bi-plus-lg me-2"></i>Criar Tarefa
                 </a>
             </div>
         {% endif %}

@@ -1,7 +1,7 @@
 {% extends 'partials/base.html' %}
 {% load static %}
 {% block extra_head %}
-    <title>Dashboard - Task Manager</title>
+    <title>Dashboard - Fokus Manager</title>
 {% endblock extra_head %}
 
 
@@ -74,9 +74,9 @@
         <div class="d-flex flex-column h-100">
             <div class="mb-4">
                 <h1 class="fw-bold m-0 text-dark">
-                    <i class="bi bi-person-workspace text-primary me-2"></i>Olá, {{ request.user.first_name|default:request.user.username }}
+                    <i class="bi bi-person-workspace text-primary me-2"></i>Bem-vindo de volta, {{ request.user.first_name|default:request.user.username }}
                 </h1>
-                <p class="text-muted mt-1 mb-0">Resumo das suas atividades e produtividade.</p>
+                <p class="text-muted mt-1 mb-0">Você está no caminho certo. Veja suas estatísticas abaixo.</p>
             </div>
             <div class="d-flex gap-2">
                 <a href="{% url 'tasks:create_task' %}" class="btn btn-primary shadow-sm" title="Nova Tarefa">
@@ -136,16 +136,16 @@
             <div class="card-header bg-gradient bg-light border-bottom pt-4 pb-3">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="fw-bold mb-0">
-                        <i class="bi bi-pie-chart text-primary me-2"></i>Desempenho em Tarefas
+                        <i class="bi bi-pie-chart text-primary me-2"></i>Sua Produtividade
                     </h5>
-                    <span class="badge text-bg-light border rounded-pill px-3 py-2">Distribuição por semana/mês</span>
+                    <span class="badge text-bg-light border rounded-pill px-3 py-2">Por semana/mês</span>
                 </div>
             </div>
             <div class="card-body p-4">
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
                     <div>
-                        <p class="text-muted small text-uppercase fw-semibold mb-1 tracking-wide">Produtividade</p>
-                        <p class="mb-0 text-body-secondary">Veja a participação das tarefas concluídas no recorte selecionado.</p>
+                        <p class="text-muted small text-uppercase fw-semibold mb-1 tracking-wide">Seu Desempenho</p>
+                        <p class="mb-0 text-body-secondary">Taxa de conclusão de tarefas em cada período selecionado.</p>
                     </div>
                     <div class="btn-group" role="group" aria-label="Selecionar período do gráfico">
                         <button type="button" class="btn btn-primary rounded-pill px-3" data-chart-period="weekly">Semanal</button>
@@ -157,7 +157,7 @@
                     <canvas id="productivity-chart" aria-label="Gráfico de produtividade" role="img"></canvas>
                 </div>
 
-                <p class="text-muted small mb-0 mt-3">Baseado em tarefas concluídas com data de finalização registrada.</p>
+                <p class="text-muted small mb-0 mt-3">Estas estatísticas são baseadas em tarefas que você marcou como concluídas.</p>
             </div>
         </div>
     </div>
@@ -185,7 +185,7 @@
                                             {% if task.completed %}
                                                 <span class="badge bg-success rounded-pill" style="font-size: 0.7rem;">Concluída</span>
                                             {% else %}
-                                                <span class="badge bg-warning rounded-pill" style="font-size: 0.7rem;">Em Aberto</span>
+                                                <span class="badge bg-warning rounded-pill" style="font-size: 0.7rem;">Pendente</span>
                                             {% endif %}
                                         </div>
                                         <p class="text-muted small mb-0">
@@ -207,8 +207,8 @@
             {% else %}
                 <div class="card-body text-center py-5">
                     <i class="bi bi-inbox fs-1 text-secondary opacity-50 mb-3 d-block"></i>
-                    <p class="text-muted mb-0">Nenhuma atividade recente registrada.</p>
-                    <p class="text-muted small">Comece criando sua primeira tarefa!</p>
+                    <p class="text-muted mb-0">Comece adicionando sua primeira tarefa!</p>
+                    <p class="text-muted small">Aqui você verá suas tarefas recentes.</p>
                 </div>
             {% endif %}
         </div>

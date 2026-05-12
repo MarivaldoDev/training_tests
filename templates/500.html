@@ -21,7 +21,7 @@
         
         <!-- Descrição -->
         <p class="lead text-muted mb-4">
-            Oops! Algo deu errado no servidor. Estamos trabalhando para resolver o problema.
+            Algo deu errado no nosso servidor. Estamos trabalhando para corrigir isso agora.
         </p>
 
         <!-- Motivos comuns -->
@@ -30,8 +30,8 @@
                 <div class="card h-100 border-0 shadow-sm rounded-3 bg-light">
                     <div class="card-body">
                         <i class="bi bi-gear text-primary fs-3 mb-2"></i>
-                        <h5 class="card-title">Erro de configuração</h5>
-                        <p class="card-text small text-muted">O servidor pode estar sobrecarregado</p>
+                        <h5 class="card-title">Sobrecarga</h5>
+                        <p class="card-text small text-muted">O servidor está processando muitas requisições</p>
                     </div>
                 </div>
             </div>
@@ -39,8 +39,8 @@
                 <div class="card h-100 border-0 shadow-sm rounded-3 bg-light">
                     <div class="card-body">
                         <i class="bi bi-database text-warning fs-3 mb-2"></i>
-                        <h5 class="card-title">Problema de banco</h5>
-                        <p class="card-text small text-muted">Erro ao conectar no banco de dados</p>
+                        <h5 class="card-title">Erro na base de dados</h5>
+                        <p class="card-text small text-muted">Problema ao acessar os dados</p>
                     </div>
                 </div>
             </div>
@@ -48,8 +48,8 @@
                 <div class="card h-100 border-0 shadow-sm rounded-3 bg-light">
                     <div class="card-body">
                         <i class="bi bi-wifi-off text-danger fs-3 mb-2"></i>
-                        <h5 class="card-title">Conexão instável</h5>
-                        <p class="card-text small text-muted">Tente novamente em alguns minutos</p>
+                        <h5 class="card-title">Falha temporária</h5>
+                        <p class="card-text small text-muted">Tente novamente em alguns momentos</p>
                     </div>
                 </div>
             </div>
@@ -58,17 +58,17 @@
         <!-- Botões de ação -->
         <div class="d-flex gap-3 justify-content-center mb-4">
             <a href="/" class="btn btn-primary btn-lg shadow-sm px-5">
-                <i class="bi bi-house-door me-2"></i> Ir para Home
+                <i class="bi bi-house-door me-2"></i> Voltar para Home
             </a>
             <button onclick="location.reload()" class="btn btn-outline-primary btn-lg shadow-sm px-5">
-                <i class="bi bi-arrow-repeat me-2"></i> Recarregar Página
+                <i class="bi bi-arrow-repeat me-2"></i> Tentar Novamente
             </button>
         </div>
 
         <!-- Sugestão de suporte -->
         <p class="text-muted">
             <small>
-                Se o problema persistir, por favor <a href="mailto:support@example.com" class="text-primary text-decoration-none">entre em contato com o suporte</a>.
+                Se o erro persistir, <a href="{% url 'tasks:home' %}" class="text-primary text-decoration-none">volte para o início</a> e tente novamente mais tarde.
             </small>
         </p>
     </div>

@@ -18,19 +18,19 @@ class Author(AbstractUser):
         super().save(*args, **kwargs)
 
         if is_new and self.email:
-            subject = "Bem-vindo ao Task Manager!"
+            subject = "Bem-vindo ao Fokus Manager!"
             dominio = config("DOMAIN_NAME", default="http://localhost:8000")
             login_url = reverse("authors:login")
             message = (
-                f"Olá {self.first_name},\n\n"
-                "Bem-vindo ao Task Manager!\n\n"
+                f"Olá {self.username},\n\n"
+                "Bem-vindo ao Fokus Manager!\n\n"
                 "Sua conta foi criada com sucesso. Para acessar a plataforma, "
                 f"clique no link abaixo:\n\n"
                 f"{dominio}{login_url}\n\n"
                 "Usuário: " + self.username + "\n\n"
                 "Se você não realizou este cadastro, ignore este e-mail.\n\n"
                 "Atenciosamente,\n"
-                "Equipe do Task Manager"
+                "Equipe do Fokus Manager"
             )
             from_email = config("EMAIL_HOST_USER")
             try:

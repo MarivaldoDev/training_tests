@@ -151,7 +151,7 @@ AUTH_USER_MODEL = "authors.Author"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-DEFAULT_FROM_EMAIL = "testesdepython2@gmail.com"
+DEFAULT_FROM_EMAIL = "teamfokusmanager@gmail.com"
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_PORT = config("EMAIL_PORT")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS")

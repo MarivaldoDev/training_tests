@@ -21,7 +21,7 @@
         
         <!-- Descrição -->
         <p class="lead text-muted mb-4">
-            Desculpe, a página que você está procurando não existe ou foi removida.
+            Desculpe! A página que você está procurando não existe. Pode ter sido movida ou removida.
         </p>
 
         <!-- Motivos comuns -->
@@ -30,8 +30,8 @@
                 <div class="card h-100 border-0 shadow-sm rounded-3 bg-light">
                     <div class="card-body">
                         <i class="bi bi-link-45deg text-primary fs-3 mb-2"></i>
-                        <h5 class="card-title">Link quebrado</h5>
-                        <p class="card-text small text-muted">A URL pode estar incorreta</p>
+                        <h5 class="card-title">URL incorreta</h5>
+                        <p class="card-text small text-muted">Verifique o endereço digitado</p>
                     </div>
                 </div>
             </div>
@@ -39,8 +39,8 @@
                 <div class="card h-100 border-0 shadow-sm rounded-3 bg-light">
                     <div class="card-body">
                         <i class="bi bi-clock-history text-warning fs-3 mb-2"></i>
-                        <h5 class="card-title">Página movida</h5>
-                        <p class="card-text small text-muted">Pode ter sido removida do servidor</p>
+                        <h5 class="card-title">Página removida</h5>
+                        <p class="card-text small text-muted">Este conteúdo já não está disponível</p>
                     </div>
                 </div>
             </div>
@@ -48,8 +48,8 @@
                 <div class="card h-100 border-0 shadow-sm rounded-3 bg-light">
                     <div class="card-body">
                         <i class="bi bi-search text-danger fs-3 mb-2"></i>
-                        <h5 class="card-title">Recurso indisponível</h5>
-                        <p class="card-text small text-muted">Verifique se tem permissão</p>
+                        <h5 class="card-title">Sem permissão</h5>
+                        <p class="card-text small text-muted">Você pode não ter acesso aqui</p>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
         <!-- Sugestão de busca -->
         <p class="text-muted">
             <small>
-                Perdido? Verifique a URL digitada ou <a href="{% url 'tasks:tasks' %}" class="text-primary text-decoration-none">volte para a lista de tarefas</a>.
+                Precisa de ajuda? Volte para <a href="/" class="text-primary text-decoration-none">a página inicial</a> ou <a href="{% url 'tasks:tasks' %}" class="text-primary text-decoration-none">suas tarefas</a>.
             </small>
         </p>
     </div>
