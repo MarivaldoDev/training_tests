@@ -167,7 +167,7 @@ AZURE_ACCOUNT_KEY = config("AZURE_ACCOUNT_KEY")
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # DEFAULT_FROM_EMAIL = "teamfokusmanager@gmail.com"
 # EMAIL_HOST = config("EMAIL_HOST")
