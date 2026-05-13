@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [".azurewebsites.net", "localhost", "127.0.0.1"]
 CSRF_TRUSTED_ORIGINS = [
     "https://fokusmanager-gyemb8gremhfayb2.centralus-01.azurewebsites.net",
 ]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Application definition
