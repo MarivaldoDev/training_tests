@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+import dj_database_url
 from decouple import config
 
 from .logging import LOGGING
@@ -26,12 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+ALLOWED_HOSTS = [".azurewebsites.net", "localhost", "127.0.0.1"]
+# CSRF_TRUSTED_ORIGINS = [
 
-ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = [
-    "https://7b2c-2804-3670-e03f-e201-a767-a210-dcbe-93ee.ngrok-free.app",
-]
+# ]
 
 
 # Application definition
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -82,12 +83,21 @@ WSGI_APPLICATION = "project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if DEBUG is False:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            config("DATABASE_URL"),
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
@@ -123,28 +133,31 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (BASE_DIR / "base_static",)
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 LOGGING = LOGGING
 AUTH_USER_MODEL = "authors.Author"
 
-# STORAGES = {
-#     "default": {
-#         "BACKEND": "storages.backends.azure_storage.AzureStorage",
-#         "OPTIONS": {
-#           "timeout": 20,
-#           "expiration_secs": 500,
-#         },
-#     },
-#     "staticfiles": {
-#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-#     }
-# }
 
-# AZURE_CONTAINER = config("AZURE_CONTAINER")
-# AZURE_ACCOUNT_NAME = config("AZURE_ACCOUNT_NAME")
-# AZURE_ACCOUNT_KEY = config("AZURE_ACCOUNT_KEY")
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "timeout": 20,
+            "expiration_secs": 500,
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+AZURE_CONTAINER = config("AZURE_CONTAINER")
+AZURE_ACCOUNT_NAME = config("AZURE_ACCOUNT_NAME")
+AZURE_ACCOUNT_KEY = config("AZURE_ACCOUNT_KEY")
 
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
