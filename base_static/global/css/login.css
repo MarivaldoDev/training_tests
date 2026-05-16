@@ -3,6 +3,12 @@
     justify-self: end;
 }
 
+input::placeholder,
+textarea::placeholder {
+    opacity: 1 !important;
+    color: #888 !important;
+}
+
 @media (max-width: 1100px) {
     .login-card {
         justify-self: stretch;
